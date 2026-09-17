@@ -12,7 +12,6 @@
 ### <img src="https://raw.githubusercontent.com/neryosx/workbay/master/docs/media/slots/icon-workbay.png" width="20" height="20" align="absmiddle" alt=""> Playing
 
 - [[Getting Started]]
-- [[Recipes and Upgrades]]
 - [[Items]]
 - [[Machines and Bays]]
 - [[Connectors and FLOW]]

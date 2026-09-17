@@ -671,8 +671,8 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("upgrade.impeller"), "Impeller");
         add(WorkbayLang.guiKey("upgrade.impeller.desc"), "Faster links");
         add(WorkbayLang.guiKey("upgrade.impeller.long"),
-            "Every link on this Workbay moves twice as much per step and waits half as long "
-            + "between steps. Two of them stack.");
+            "Doubles what every link moves in a step and halves the wait between steps: four "
+            + "times the throughput, and two may be fitted, for sixteen.");
 
         // The gauges under the grid. The figures on the line have no unit - it does not fit - so
         // the tooltip is where "mB" and "FE" are actually said.
@@ -712,15 +712,16 @@ public class WBLanguageProvider extends LanguageProvider {
             + "is built from it.");
         // OPEN_ISSUES #130: the upgrade and room recipes unlock on holding one, so this is the
         // line that tells a player without a recipe viewer where the rest of the mod is.
-        add(WorkbayLang.tooltipKey("item.housing"), "Shopsteel, obsidian and an Ender Eye. Holding "
+        add(WorkbayLang.tooltipKey("item.housing"), "Shopsteel, obsidian and an Eye of Ender. Holding "
             + "one unlocks every upgrade and room recipe.");
         add(WorkbayLang.tooltipKey("item.expansion_plate"), "One more bay, up to eight. Fitted on "
             + "the Upgrades tab and used up.");
         add(WorkbayLang.tooltipKey("item.anchor"), "Keeps this network running while you are "
             + "online and away from it.");
         add(WorkbayLang.tooltipKey("item.resonator"), "Lets links reach into other dimensions.");
-        add(WorkbayLang.tooltipKey("item.impeller"), "Links move twice as much, twice as often. "
-            + "Two may be fitted.");
+        add(WorkbayLang.tooltipKey("item.impeller"), "Doubles what every link moves in a step and "
+            + "halves the wait between steps: four times the throughput, and two may be fitted, "
+            + "for sixteen.");
         add(WorkbayLang.tooltipKey("more"), "Hold Shift for the guide");
         add(WorkbayLang.tooltipKey("room_size"), "%1$s x %1$s x %1$s inside. Goes in a bay.");
         add(WorkbayLang.tooltipKey("room_new"), "Nobody has been inside yet.");
@@ -753,7 +754,7 @@ public class WBLanguageProvider extends LanguageProvider {
             + "The Workbay glows while goods are moving and goes amber when a link needs you.");
         add(WorkbayLang.infoKey("workbay.6"), "Everything past that is an upgrade you craft and "
             + "fit on the Upgrades tab: more bays, faster links, longer reach. Every one of them "
-            + "is Shopsteel around a Housing (four Shopsteel, four obsidian, an Ender Eye) and a "
+            + "is Shopsteel around a Housing (four Shopsteel, four obsidian, an Eye of Ender) and a "
             + "core, and their recipes appear once you hold a Housing. Each one is "
             + "consumed when it goes in, and there is no taking it out again. A room is "
             + "different: a block that goes in a bay like a machine, that you build inside, and "
@@ -804,13 +805,13 @@ public class WBLanguageProvider extends LanguageProvider {
             + "dimensions. Without one, a Connector in the Nether pointing at a Workbay in the "
             + "Overworld sits still, and its row says so.");
         add(WorkbayLang.infoKey("impeller.1"), "Doubles what every link moves in a step and halves "
-            + "the wait between steps - both, on every link this network has. Two may be "
-            + "fitted. Throughput is the one thing a fresh Workbay is deliberately short of.");
+            + "the wait between steps: four times the throughput, and two may be fitted, for "
+            + "sixteen. Throughput is the one thing a fresh Workbay is deliberately short of.");
 
         add(WorkbayLang.infoKey("shopsteel.1"), "An intermediate: one iron ingot and one amethyst shard "
             + "make two. Used in everything this mod makes.");
         add(WorkbayLang.infoKey("housing.1"), "An intermediate: four Shopsteel, four obsidian and "
-            + "an Ender Eye. The shell every upgrade and every room is built on, and holding one is "
+            + "an Eye of Ender. The shell every upgrade and every room is built on, and holding one is "
             + "what puts their recipes in the recipe book; the Workbay and the Connector need none.");
     }
 }

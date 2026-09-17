@@ -22,7 +22,7 @@ No cable is run at any point. Distance inside one dimension costs nothing. A lin
 
 ## What a channel carries
 
-The screen calls each row a **channel**: one bay, one Connector, one resource.
+The screen calls each row a **channel**: one bay, one Connector, one resource. A channel and a link are the same thing; the screen says channel, FLOW and this wiki say link.
 
 | Carries | Needs | Notes |
 | --- | --- | --- |
@@ -38,7 +38,7 @@ Every channel has four dials:
 - **Rate** - how much moves per step.
 - **Speed** - ticks between steps, from a fixed list: 10, 20, 40, 60, 100, 200.
 
-An **Impeller** doubles the rate and halves the wait on every channel at once, so one is worth four times the throughput and the two-level ceiling is worth sixteen.
+An **Impeller** doubles what every link moves in a step and halves the wait between steps: four times the throughput, and two may be fitted, for sixteen.
 
 A network holds at most 64 links.
 

@@ -6,9 +6,9 @@ Ask the game why:
 /workbay why <block id>
 ```
 
-It will name the rule. Almost always it is one of three: the block has no block entity, it works by connecting to its neighbours (a cable, a pipe, a conduit), or the pack - or the block's own mod - has tagged it as not hostable. See [[Machines and Bays]].
+It will name the rule. Almost always it is one of four: the block has no block entity, it works by connecting to its neighbours (a cable, a pipe, a conduit), it is a piece of a multiblock (a casing, a valve, a port), or the pack - or the block's own mod - has tagged it as not hostable. See [[Machines and Bays]].
 
-There is no automatic multiblock or rotation check. A bay holds one block, so a multiblock cannot go in whole; racking one *part* of one is allowed unless somebody tagged it, and the structure it came from will break.
+A machine that is merely big, one that needs the blocks around it, is not refused by any of those: the bay is grown wider once and the placement tried again. Only a machine that reaches past that comes back to your hand.
 
 ## A link is not moving anything
 
@@ -48,7 +48,7 @@ The world reads cleanly and those bays show empty, and it keeps a record of **wh
 
 ## Does hosting cost TPS?
 
-A hosted machine is the same block entity ticking at the same rate - it is in a different dimension, not in a faster or slower one. Measured cost is about 0.05 ms per tick per busy network. The bay column is mirrored only while the Workbay's own chunk is already loaded, so it forces no chunk somebody is not already paying for; only an Anchor keeps anything loaded while nobody is there.
+No more than the floor did: a hosted machine is the same block entity ticking at the same rate, in a different dimension, not a faster or slower one. The measured cost and what is force-loaded are on [[Machines and Bays]] under Performance.
 
 ## Can I put a Room inside a Room?
 
