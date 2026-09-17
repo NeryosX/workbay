@@ -29,7 +29,7 @@ The machine is now in the private dimension. It is the same block entity it was 
 
 > If a server has turned `remoteScreens` off in `config/workbay-mixins.properties`, that button reads **Enter bay** instead and walks you to the machine. See [[Server Configuration]].
 
-A fresh Workbay has **two bays**. Each Expansion Plate upgrade adds one, up to a ceiling of eight - see [[Recipes and Upgrades]].
+A fresh Workbay has **two bays**. Each Expansion Plate upgrade adds one, up to a ceiling of eight - see [[Items]].
 
 ## Reading the WORKBAY screen
 
@@ -47,7 +47,7 @@ A fresh Workbay has **two bays**. Each Expansion Plate upgrade adds one, up to a
 
 The icons in the top-right corner switch screens.
 
-- **UPGRADES** - more bays, faster links, cross-dimension links, chunk loading. See [[Recipes and Upgrades]].
+- **UPGRADES** - more bays, faster links, cross-dimension links, chunk loading. See [[Items]].
 - **FLOW** - the whole network drawn as a map. See [[Connectors and FLOW]].
 - **NETWORKS** - which network this block is holding, and how to move one between blocks. A Workbay holding no network opens straight here. See [[Networks and Locking]].
 

@@ -39,8 +39,7 @@ gametest covering it.
 
 ## Submitting a pull request
 
-1. Fork the repository (or create a branch, if you have write access) -
-   `master` is protected and cannot be pushed to directly.
+1. Fork the repository.
 2. Create a branch off `master` named for what it does, e.g.
    `fix/connector-filter-crash` or `feature/room-preview`.
 3. Keep the change focused. Unrelated cleanup belongs in its own PR.

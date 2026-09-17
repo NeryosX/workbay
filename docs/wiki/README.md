@@ -2,12 +2,11 @@
 
 These files are the source of truth for the [Workbay wiki](https://github.com/neryosx/workbay/wiki).
 
-GitHub stores a wiki in its own repository with no pull requests and no review, so the pages are
-kept here as well: a wiki change arrives as an ordinary PR, gets a diff and a review like any
-other change, and is copied to the wiki once it is merged.
+GitHub stores a wiki in its own repository with no review, so the pages are kept here as well: a
+wiki change is an ordinary commit here, with a diff, and is copied to the wiki afterwards.
 
 One file per wiki page. The file name is the page title with spaces replaced by hyphens, which is
-how the wiki itself names them, so `Recipes-and-Upgrades.md` is the page **Recipes and Upgrades**.
+how the wiki itself names them, so `Machines-and-Bays.md` is the page **Machines and Bays**.
 `_Sidebar.md` and `_Footer.md` are the wiki's own navigation files.
 
 Images live in `../media/`. The pages reference them by absolute `raw.githubusercontent.com` URL

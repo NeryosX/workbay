@@ -87,9 +87,8 @@ Class transformation happens before any config could be loaded, which is why thi
 
 ## Notes for server owners
 
-- Measured cost is around 0.05 ms per tick per busy network, and a network holds at most 64 links.
-- Every packet the mod sends is bounded and validated server-side, and a menu is budgeted to 80 actions per five ticks.
+The measured cost per network, the link cap, the packet budget and what is force-loaded are on [[Machines and Bays]] under Performance.
 
 ---
 
-See also: **[[Modpacks]]**, **[[Recipes and Upgrades]]**, **[[Connectors and FLOW]]**.
+See also: **[[Modpacks]]**, **[[Items]]**, **[[Connectors and FLOW]]**.

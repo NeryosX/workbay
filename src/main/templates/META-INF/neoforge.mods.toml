@@ -15,10 +15,10 @@ credits="Parts derived from EnderIO (Unlicense)."
 description='''
 One block that hosts other mods' machines in a private dimension and reaches them wirelessly.
 
-A Workbay racks up to eight machines out of sight and links them to the chests, tanks and machines
-you leave standing in the world - no cables, no floor of boxes. A room in three sizes racks like a
-machine and travels as an item. It saves space, never TPS: a hosted machine costs exactly what it
-costs on the floor.
+A Workbay racks two machines out of sight, eight with Expansion Plates, and links them to the
+chests, tanks and machines you leave standing in the world - no cables, no floor of boxes. A room
+in three sizes racks like a machine and travels as an item. It buys space, not tick time: a hosted
+machine costs exactly what it costs on the floor.
 '''
 
 # Five injections, one per mixin class, every one of them only for the remote screen (SPEC.md §5):

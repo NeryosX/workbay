@@ -6,7 +6,7 @@ Workbay builds with Gradle against NeoForge. You need **Java 21** and **NeoForge
 ./gradlew build              # build the mod jar
 ./gradlew runClient          # launch a dev client
 ./gradlew check              # compile every source set, main, datagen and gametest
-./gradlew runGameTestServer  # the 186 gametests
+./gradlew runGameTestServer  # the 189 gametests
 ./gradlew runBenchmark       # the performance scenarios (minutes)
 ```
 
@@ -32,9 +32,9 @@ The performance scenarios in `PerfBench` are gated behind `runBenchmark` and pas
 
 ## Workflow
 
-`master` is protected: it takes no direct pushes, and changes arrive through a pull request.
+Changes from outside the project arrive through a pull request.
 
-1. Fork the repository, or branch it if you have write access.
+1. Fork the repository.
 2. Branch off `master` with a name that says what the change does - `fix/connector-filter-crash`, `feature/room-preview`.
 3. Keep the change focused; unrelated cleanup belongs in its own pull request.
 4. Open the pull request against `master` and fill in the template.
@@ -43,7 +43,7 @@ The full guide is in [CONTRIBUTING.md](https://github.com/neryosx/workbay/blob/m
 
 ## Documentation
 
-The wiki is written in `docs/wiki/`, one markdown file per page, and reaches the wiki through a pull request like any other change - see the same guide.
+The wiki is written in `docs/wiki/`, one markdown file per page, and a change to it is a change to the repository like any other - see the same guide. The pages are copied to the wiki afterwards.
 
 ## Reporting instead of coding
 

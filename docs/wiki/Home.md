@@ -8,10 +8,13 @@ Workbay is a NeoForge mod for Minecraft 1.21.1. Instead of a room full of machin
 of pipes, you place a single block: the Workbay. Machines go inside it, into a private dimension
 the mod keeps for you, and go on running exactly as they did on the floor. Chests, tanks and
 machines still out in the world are reached with small plates called Connectors, so nothing needs
-wiring.
+wiring. A fresh Workbay holds two machines; six Expansion Plates take it to eight.
 
-It saves space, never TPS: a hosted machine is the same block entity, ticking the same way, just
-somewhere else.
+You never go to that private dimension yourself. A hosted machine is reached through its own
+screen, opened from where you stand; Rooms are the one thing in it you walk into.
+
+It buys space, not tick time: a hosted machine is the same block entity, ticking the same way, just
+somewhere else. The measured cost is on [[Machines and Bays]].
 
 ## Before and after
 
@@ -31,13 +34,14 @@ somewhere else.
 4. **Watch it run.** FLOW draws the whole network as a map, one line per link, coloured by what
    that link is doing right now.
 
-## The three screens
+## The four screens
 
 | Screen | What it is for |
 | --- | --- |
 | WORKBAY | The bays: the racked machine and its status, the face cube that sets which side takes what, and that bay's links. |
 | FLOW | The network as a map. One line per link, pips walking along the ones that are moving. |
 | UPGRADES | More bays, more dimensions, higher transfer rates, chunk loading. |
+| NETWORKS | Which network this block holds, and Transfer to move one between blocks. A Workbay holding no network opens here. |
 
 ## Supported versions
 
@@ -56,8 +60,7 @@ answer gets recorded.
 **<img src="https://raw.githubusercontent.com/neryosx/workbay/master/docs/media/slots/icon-workbay.png" width="16" height="16" align="absmiddle" alt=""> For players**
 
 - **[[Getting Started]]** - install, craft, rack your first machine.
-- **[[Recipes and Upgrades]]** - what to craft, in what order, and what each upgrade does.
-- **[[Items]]** - every block and item, what it is for, how you get one.
+- **[[Items]]** - every block and item, its recipe, the order to build in, what each upgrade does.
 - **[[Machines and Bays]]** - what can be hosted, what is refused and why.
 - **[[Connectors and FLOW]]** - linking without cables, filters, rates, reading the map.
 - **[[Rooms]]** - builds you can pick up and carry.
@@ -81,8 +84,9 @@ Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21. No library mod, no other 
 MIT licensed; modpacks are welcome without asking.
 
 Mekanism is tested against every build, and JEI or EMI let you drag an ingredient straight into a
-link's filter. Blocks that work by joining up with their neighbours - cables, pipes, conduits - and
-blocks a mod or a pack has tagged as unmovable are refused, and the tooltip says why.
+link's filter. Multiblock parts, blocks that work by joining up with their neighbours - cables,
+pipes, conduits - and blocks a mod or a pack has tagged as unmovable are refused, and the tooltip
+says why.
 
 Opening a hosted machine's own screen from where you stand is the one feature a host can switch
 off, in `config/workbay-mixins.properties`. With it off the button walks you to the bay instead.
