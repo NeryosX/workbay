@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "workbay:block/workbay_front",
+    "side": "workbay:block/workbay_side",
+    "top": "workbay:block/workbay_top"
+  }
+}

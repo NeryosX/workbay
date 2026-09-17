@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "workbay:shopsteel"
+    }
+  },
+  "pattern": [
+    "SRS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "workbay:connector"
+  }
+}

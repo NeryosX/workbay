@@ -1,0 +1,367 @@
+{
+  "variants": {
+    "colour=bone,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=bone,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=bone,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=bone,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=bone,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=bone,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=bone,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=bone,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=bone,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=bone,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=bone,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=charcoal,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=charcoal,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=charcoal,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=charcoal,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=charcoal,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=charcoal,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=charcoal,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=charcoal,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=charcoal,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=charcoal,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=charcoal,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=clay,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=clay,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=clay,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=clay,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=clay,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=clay,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=clay,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=clay,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=clay,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=clay,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=clay,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=overworld,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=overworld,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=overworld,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=overworld,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=overworld,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=overworld,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=overworld,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=overworld,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=overworld,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=overworld,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=overworld,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=plum,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=plum,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=plum,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=plum,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=plum,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=plum,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=plum,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=plum,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=plum,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=plum,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=plum,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=rose,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=rose,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=rose,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=rose,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=rose,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=rose,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=rose,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=rose,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=rose,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=rose,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=rose,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=sage,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=sage,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=sage,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=sage,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=sage,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=sage,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=sage,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=sage,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=sage,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=sage,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=sage,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=sand,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=sand,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=sand,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=sand,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=sand,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=sand,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=sand,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=sand,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=sand,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=sand,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=sand,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=sky,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=sky,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=sky,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=sky,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=sky,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=sky,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=sky,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=sky,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=sky,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=sky,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=sky,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=slate,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=slate,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=slate,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=slate,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=slate,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=slate,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=slate,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=slate,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=slate,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=slate,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=slate,part=wall": {
+      "model": "workbay:block/room_wall"
+    },
+    "colour=teal,part=ceiling": {
+      "model": "workbay:block/room_ceiling"
+    },
+    "colour=teal,part=door_b": {
+      "model": "workbay:block/room_door_b"
+    },
+    "colour=teal,part=door_bl": {
+      "model": "workbay:block/room_door_bl"
+    },
+    "colour=teal,part=door_br": {
+      "model": "workbay:block/room_door_br"
+    },
+    "colour=teal,part=door_t": {
+      "model": "workbay:block/room_door_t"
+    },
+    "colour=teal,part=door_tl": {
+      "model": "workbay:block/room_door_tl"
+    },
+    "colour=teal,part=door_tr": {
+      "model": "workbay:block/room_door_tr"
+    },
+    "colour=teal,part=floor": {
+      "model": "workbay:block/room_floor"
+    },
+    "colour=teal,part=light": {
+      "model": "workbay:block/room_light"
+    },
+    "colour=teal,part=skirting": {
+      "model": "workbay:block/room_skirting"
+    },
+    "colour=teal,part=wall": {
+      "model": "workbay:block/room_wall"
+    }
+  }
+}

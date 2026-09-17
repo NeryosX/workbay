@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "workbay:block/connector",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "workbay:block/connector",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "workbay:block/connector"
+    },
+    "facing=south": {
+      "model": "workbay:block/connector",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "workbay:block/connector",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "workbay:block/connector",
+      "y": 270
+    }
+  }
+}

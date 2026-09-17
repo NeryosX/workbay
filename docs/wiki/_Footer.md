@@ -1,0 +1,1 @@
+Workbay &middot; Minecraft 1.21.1 &middot; NeoForge 21.1.249+ &middot; Java 21 &middot; MIT licensed. [Report a bug](https://github.com/neryosx/workbay/issues/new?template=bug_report.yml) or [request a feature](https://github.com/neryosx/workbay/issues/new?template=feature_request.yml).

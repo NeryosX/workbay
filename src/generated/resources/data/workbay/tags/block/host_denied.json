@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:beds",
+    "#minecraft:doors",
+    "minecraft:trial_spawner",
+    "minecraft:vault",
+    "workbay:workbay"
+  ]
+}

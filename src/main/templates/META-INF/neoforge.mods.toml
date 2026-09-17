@@ -1,0 +1,66 @@
+# Workbay's mod metadata. Placeholders are filled from gradle.properties by generateModMetadata.
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+issueTrackerURL="https://github.com/neryosx/workbay/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+displayURL="https://github.com/neryosx/workbay"
+logoFile="workbay_logo.png"
+authors="Neryos"
+credits="Parts derived from EnderIO (Unlicense)."
+description='''
+One block that hosts other mods' machines in a private dimension and reaches them wirelessly.
+
+A Workbay racks up to eight machines out of sight and links them to the chests, tanks and machines
+you leave standing in the world - no cables, no floor of boxes. A room in three sizes racks like a
+machine and travels as an item. It saves space, never TPS: a hosted machine costs exactly what it
+costs on the floor.
+'''
+
+# Five injections, one per mixin class, every one of them only for the remote screen (SPEC.md §5):
+# Player, Level and ServerChunkCache on both sides, ClientChunkCache and LevelChunk on the client.
+# A server host who does not want them turns the feature off in config/workbay-mixins.properties,
+# which is read by RemoteScreenGate *before* any of them is applied -- so "off" means the class is
+# never patched, not that a patched method returns early.
+[[mixins]]
+config="${mod_id}.mixins.json"
+
+[[dependencies.${mod_id}]]
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"
+
+# All three are optional and guarded: the mod loads with none of them.
+[[dependencies.${mod_id}]]
+    modId="jei"
+    type="optional"
+    versionRange="[19,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="emi"
+    type="optional"
+    versionRange="[1.1,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="mekanism"
+    type="optional"
+    versionRange="[10.7,)"
+    ordering="AFTER"
+    side="BOTH"

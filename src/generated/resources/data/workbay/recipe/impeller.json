@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:breeze_rod"
+    },
+    "H": {
+      "item": "workbay:housing"
+    },
+    "S": {
+      "item": "workbay:shopsteel"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SCS",
+    " H "
+  ],
+  "result": {
+    "count": 1,
+    "id": "workbay:impeller"
+  }
+}

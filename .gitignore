@@ -1,0 +1,68 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/**/build/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/**/out/
+
+.run/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.eclipse/
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/**/bin/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
+
+### Minecraft Modding ###
+run/
+!**/src/**/run/
+**/src/generated/**/.cache/
+repo/
+!**/src/**/repo/
+run-gametest/
+
+# Working notes, plans, specs, benchmarks and night-run reports. They are how the project is
+# built, not part of what is shipped, and they stay off the public repository.
+docs/dev/
+CONVENTIONS.md
+
+# Local build, release and authoring scripts, and the git hooks that run them. They are
+# written against one checkout's own paths, so they stay off the public repository.
+# Everything a clone needs to build, test and run the mod is a Gradle task.
+tools/
+.githooks/
+
+# Night-run logs.
+night/
+
+# Screenshots taken while testing. Evidence for a change, not part of the mod.
+shots/
+
+### Editor and interpreter scratch ###
+__pycache__/
+
+# Publishing tokens never live here. They are read from outside the repository, and a
+# pre-commit check refuses a staged one. Belt and braces:
+*.env
+*.token
+publish.env
+build/publishMods/

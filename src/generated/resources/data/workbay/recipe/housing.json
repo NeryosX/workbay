@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "workbay:shopsteel"
+    }
+  },
+  "pattern": [
+    "SOS",
+    "OEO",
+    "SOS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "workbay:housing"
+  }
+}

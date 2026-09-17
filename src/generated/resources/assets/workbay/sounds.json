@@ -1,0 +1,128 @@
+{
+  "anchor_off": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate"
+      }
+    ],
+    "subtitle": "subtitles.workbay.anchor_off"
+  },
+  "anchor_on": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate"
+      }
+    ],
+    "subtitle": "subtitles.workbay.anchor_on"
+  },
+  "confirm": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.vault.insert_item"
+      }
+    ],
+    "subtitle": "subtitles.workbay.confirm"
+  },
+  "door": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.iron_door.open"
+      }
+    ],
+    "subtitle": "subtitles.workbay.door"
+  },
+  "linked": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.copper_bulb.turn_on"
+      }
+    ],
+    "subtitle": "subtitles.workbay.linked"
+  },
+  "network_arrives": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate"
+      }
+    ],
+    "subtitle": "subtitles.workbay.network_arrives"
+  },
+  "refuse": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.vault.insert_item_fail"
+      }
+    ],
+    "subtitle": "subtitles.workbay.refuse"
+  },
+  "relay": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.comparator.click"
+      }
+    ],
+    "subtitle": "subtitles.workbay.relay"
+  },
+  "room_returned": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.copper_bulb.turn_off"
+      }
+    ],
+    "subtitle": "subtitles.workbay.room_returned"
+  },
+  "started": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.vault.open_shutter"
+      }
+    ],
+    "subtitle": "subtitles.workbay.started"
+  },
+  "stopped": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.vault.close_shutter"
+      }
+    ],
+    "subtitle": "subtitles.workbay.stopped"
+  },
+  "stuck": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.copper_bulb.turn_off"
+      }
+    ],
+    "subtitle": "subtitles.workbay.stuck"
+  },
+  "travel": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.enderman.teleport"
+      }
+    ],
+    "subtitle": "subtitles.workbay.travel"
+  },
+  "upgraded": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.smithing_table.use"
+      }
+    ],
+    "subtitle": "subtitles.workbay.upgraded"
+  }
+}

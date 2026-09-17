@@ -1,0 +1,51 @@
+{
+  "__comment": "Vanilla's flat preset, plus workbay:backshop. GameTestServer.create() bakes its world dimensions against a deliberately EMPTY LevelStem registry (net.minecraft.server.Main uses datapackDimensions() instead), so a datapack-declared dimension is discarded and server.getLevel() returns null. The only merge point left is the FLAT preset's own dimension map, which is this file. Shipped by workbay_tests only, so it never reaches a player's Superflat world. OPEN_ISSUES #14.",
+  "dimensions": {
+    "workbay:backshop": {
+      "type": "workbay:backshop",
+      "generator": {
+        "type": "minecraft:flat",
+        "settings": {
+          "biome": "minecraft:the_void",
+          "features": false,
+          "lakes": false,
+          "layers": [],
+          "structure_overrides": []
+        }
+      }
+    },
+    "minecraft:overworld": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:flat",
+        "settings": {
+          "biome": "minecraft:plains",
+          "features": false,
+          "lakes": false,
+          "layers": [
+            { "block": "minecraft:bedrock", "height": 1 },
+            { "block": "minecraft:dirt", "height": 2 },
+            { "block": "minecraft:grass_block", "height": 1 }
+          ],
+          "structure_overrides": ["minecraft:strongholds", "minecraft:villages"]
+        }
+      }
+    },
+    "minecraft:the_end": {
+      "type": "minecraft:the_end",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": { "type": "minecraft:the_end" },
+        "settings": "minecraft:end"
+      }
+    },
+    "minecraft:the_nether": {
+      "type": "minecraft:the_nether",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": { "type": "minecraft:multi_noise", "preset": "minecraft:nether" },
+        "settings": "minecraft:nether"
+      }
+    }
+  }
+}

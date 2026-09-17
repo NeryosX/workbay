@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "facing=east,powered=false,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 90
+    },
+    "facing=east,powered=false,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 90
+    },
+    "facing=east,powered=false,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 90
+    },
+    "facing=east,powered=true,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 90
+    },
+    "facing=east,powered=true,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 90
+    },
+    "facing=east,powered=true,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 90
+    },
+    "facing=north,powered=false,state=idle": {
+      "model": "workbay:block/workbay"
+    },
+    "facing=north,powered=false,state=running": {
+      "model": "workbay:block/workbay_running"
+    },
+    "facing=north,powered=false,state=stuck": {
+      "model": "workbay:block/workbay_stuck"
+    },
+    "facing=north,powered=true,state=idle": {
+      "model": "workbay:block/workbay"
+    },
+    "facing=north,powered=true,state=running": {
+      "model": "workbay:block/workbay_running"
+    },
+    "facing=north,powered=true,state=stuck": {
+      "model": "workbay:block/workbay_stuck"
+    },
+    "facing=south,powered=false,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 180
+    },
+    "facing=south,powered=false,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 180
+    },
+    "facing=south,powered=false,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 180
+    },
+    "facing=south,powered=true,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 180
+    },
+    "facing=south,powered=true,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 180
+    },
+    "facing=south,powered=true,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 180
+    },
+    "facing=west,powered=false,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 270
+    },
+    "facing=west,powered=false,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 270
+    },
+    "facing=west,powered=false,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 270
+    },
+    "facing=west,powered=true,state=idle": {
+      "model": "workbay:block/workbay",
+      "y": 270
+    },
+    "facing=west,powered=true,state=running": {
+      "model": "workbay:block/workbay_running",
+      "y": 270
+    },
+    "facing=west,powered=true,state=stuck": {
+      "model": "workbay:block/workbay_stuck",
+      "y": 270
+    }
+  }
+}
