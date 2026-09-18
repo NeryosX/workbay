@@ -2,6 +2,18 @@
 
 The top section is what goes out with the release. Newest first.
 
+## 1.0.1 - 2026-09-18
+
+Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies. Worlds from 1.0.0 open unchanged.
+
+- **A Workbay holding no network opens with anything in hand.** Right-clicking one (placed by
+  `/setblock`, or by a player at the network limit) with a Workbay or a Connector in hand placed
+  the held item instead of opening the screen. The screen now wins, as it does for any other item.
+- **The first tab's tooltip reads *Bays*** instead of `gui.workbay.button.bays`.
+- **The homepage and issue links** on the Mods screen point at `github.com/neryosx/workbay`.
+- The published 1.0.0 jar predated the tag and lacked the `multi_block` name token and the bay
+  that widens for a machine writing outside itself; this jar is built from the tree it says it is.
+
 ## 1.0.0 - 2026-09-14
 
 First release. Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies.

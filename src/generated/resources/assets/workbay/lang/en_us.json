@@ -27,6 +27,8 @@
   "gui.workbay.button.back": "Back to bays",
   "gui.workbay.button.back.tip": "Return to the bays screen.",
   "gui.workbay.button.bay_view": "Bay View",
+  "gui.workbay.button.bays": "Bays",
+  "gui.workbay.button.bays.tip": "Every bay, the machine in it, its faces and its links.",
   "gui.workbay.button.copy": "Copy this bay",
   "gui.workbay.button.copy.tip": "Copies this bay's face settings.",
   "gui.workbay.button.eject": "Eject",

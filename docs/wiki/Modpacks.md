@@ -12,7 +12,7 @@ This page is the short version of everything a pack author or server host needs.
 | Java | 21 |
 | Hard dependencies | none |
 | Optional at runtime | JEI, EMI, Mekanism - all three are guarded, and the mod loads with none of them |
-| Download | [Releases](https://github.com/neryosx/workbay/releases), [CurseForge](https://www.curseforge.com/minecraft/mc-mods/workbay), Modrinth |
+| Download | [Releases](https://github.com/neryosx/workbay/releases), [CurseForge](https://www.curseforge.com/minecraft/mc-mods/workbay) |
 
 Workbay adds one dimension of its own, `workbay:backshop`, for hosted machines and rooms. It registers nothing into another mod's registries.
 
