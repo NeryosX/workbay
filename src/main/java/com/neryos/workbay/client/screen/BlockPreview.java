@@ -111,9 +111,11 @@ public class BlockPreview {
     /**
      * A face's name from the machine's point of view, not the compass's.
      *
-     * <p>Compass letters were the first thing tried and they are useless here: a bay always racks
-     * its machine facing north ({@code BayHosting.rack}), the preview always opens looking at that
-     * north face, and the player has no way to tell which side of their machine "W" is. Worse, a
+     * <p>Compass letters were the first thing tried and they are useless here: the screen racks
+     * every machine with north ({@code WorkbayMenu} hands {@code Direction.NORTH} to
+     * {@code BayHosting.place}, and {@code orient} turns a block with a front that way, or stands
+     * a six-way block upright), the preview always opens looking at that north face, and the
+     * player has no way to tell which side of their machine "W" is. Worse, a
      * chest -- and every other block drawn by a BlockEntityRenderer rather than a baked model --
      * renders as a featureless box in {@code renderSingleBlock}, so there is no latch or panel to
      * orient by either. Front and back are the two the player is actually choosing between.
