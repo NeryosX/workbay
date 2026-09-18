@@ -447,4 +447,38 @@ public class WorkbayBlockTests {
             helper.succeed();
         });
     }
+
+    /**
+     * 1.0.1, from the play test of the published jar. A Workbay holding no network (one placed by
+     * {@code /setblock}, or by a player at the network quota) answered a held Workbay with FAIL,
+     * and vanilla reads FAIL as "the item goes next": a second Workbay went down on top of the
+     * first, minted a network, and the screen never opened. The screen wins over placement.
+     */
+    @GameTest
+    @TestHolder(description = "Right-clicking a Workbay holding no network with a Workbay in hand opens it; nothing is placed.")
+    public static void aWorkbayHoldingNoNetworkOpensRatherThanPlacingASecondOne(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 4, 3));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            ServerLevel level = helper.getLevel();
+            GameTestPlayer player = helper.makeTickingMockServerPlayerInLevel(GameType.SURVIVAL);
+            BlockPos pos = helper.absolutePos(new BlockPos(1, 1, 1));
+            // What /setblock does: the block and its entity, no setPlacedBy, so no record.
+            level.setBlock(pos, WBBlocks.WORKBAY.get().defaultBlockState(), Block.UPDATE_ALL);
+            player.moveTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 2.5);
+            ItemStack held = new ItemStack(WBBlocks.WORKBAY.get(), 2);
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, held);
+            var hit = new net.minecraft.world.phys.BlockHitResult(
+                net.minecraft.world.phys.Vec3.atCenterOf(pos).add(0, 0.5, 0), Direction.UP, pos, false);
+
+            // The whole server-side gesture, item use included, not the block's hook alone.
+            player.gameMode.useItemOn(player, level, held, net.minecraft.world.InteractionHand.MAIN_HAND, hit);
+
+            helper.assertTrue(level.getBlockState(pos.above()).isAir(),
+                "a second Workbay was placed on top instead of the screen opening");
+            helper.assertTrue(player.containerMenu instanceof com.neryos.workbay.menu.WorkbayMenu,
+                "the Workbay screen did not open with a Workbay in hand");
+            helper.succeed();
+        });
+    }
 }

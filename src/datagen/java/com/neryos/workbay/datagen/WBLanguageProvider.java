@@ -174,6 +174,10 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("count.problems.one"), "1 problem");
         add(WorkbayLang.guiKey("count.problems.none"), "no problems");
 
+        // OPEN_ISSUES #127: the first tab a player hovers drew its key.
+        add(WorkbayLang.guiKey("button.bays"), "Bays");
+        add(WorkbayLang.guiKey("button.bays.tip"), "Every bay, the machine in it, its faces and "
+            + "its links.");
         add(WorkbayLang.guiKey("button.upgrades"), "Upgrades");
         add(WorkbayLang.guiKey("button.upgrades.tip"), "Install Expansion Plates, a Resonator, an "
             + "Impeller or an Anchor.");

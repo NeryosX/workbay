@@ -221,13 +221,15 @@ public class WorkbayBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return net.minecraft.world.ItemInteractionResult.SUCCESS;
         }
-        if (!(level.getBlockEntity(pos) instanceof WorkbayBlockEntity workbay)) {
-            return net.minecraft.world.ItemInteractionResult.FAIL;
+        // A block holding no network has nothing to pair or stamp with, but it has a screen
+        // (NETWORKS, with a Transfer beside each of the player's own), and the screen wins: FAIL
+        // here let the held Workbay place a second one on top, and a Connector place itself
+        // against the block. 1.0.1.
+        if (!(level.getBlockEntity(pos) instanceof WorkbayBlockEntity workbay)
+            || workbay.record().isEmpty()) {
+            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        WorkbayRecord record = workbay.record().orElse(null);
-        if (record == null) {
-            return net.minecraft.world.ItemInteractionResult.FAIL;
-        }
+        WorkbayRecord record = workbay.record().get();
         // The one lock, on the world gesture too: a stranger must not pair a Connector into
         // somebody else's Add list, nor stamp a blank Workbay with their network for later.
         // CONSUME, not FAIL: FAIL lets the item's own use run next, which placed the Connector
