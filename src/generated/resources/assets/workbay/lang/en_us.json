@@ -97,7 +97,7 @@
   "gui.workbay.faces.role.none": "Unset. With no face set, links use whichever face answers.",
   "gui.workbay.faces.role.output": "Output. Links may pull out of this face.",
   "gui.workbay.faces.room": "A room has no faces. Machines inside it are reached through Connectors placed inside.",
-  "gui.workbay.faces.tip": "Click a face to cycle it in, out, off. Right-click steps back.",
+  "gui.workbay.faces.tip": "Click a face to cycle it in, out, unset. Right-click steps back.",
   "gui.workbay.filter.allow": "Whitelist",
   "gui.workbay.filter.carrying": "Click a slot to list it, anywhere else to drop it.",
   "gui.workbay.filter.chemical": "List what is in the tank",

@@ -2250,15 +2250,17 @@ class BaysPage extends WorkbayPage {
     }
 
     /**
-     * An unnamed Connector's name, and the only place one is made: the block it stands on, with
+     * An unnamed Connector's name, and the only place one is made: the block it stands on, led by
      * its x and z when another unnamed one stands on the same kind, and its coordinates alone when
      * this client has never known the block. The rename panel says the same thing as its hint.
+     * <b>Led by</b>, not followed: a row cuts a long name at its end, and "Ultimate Energy ..."
+     * twice over was two twins whose places had both been cut off. Photographed.
      */
     static String derivedName(Optional<ResourceLocation> block, net.minecraft.core.BlockPos at,
         boolean twin) {
         return block.filter(id -> !id.equals(ResourceLocation.withDefaultNamespace("air")))
             .map(BaysPage::displayName).map(Component::getString)
-            .map(name -> twin ? name + " " + at.getX() + " " + at.getZ() : name)
+            .map(name -> twin ? at.getX() + " " + at.getZ() + " · " + name : name)
             .orElseGet(() -> at.getX() + " " + at.getY() + " " + at.getZ());
     }
 

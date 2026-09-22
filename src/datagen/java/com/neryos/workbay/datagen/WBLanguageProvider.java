@@ -276,7 +276,7 @@ public class WBLanguageProvider extends LanguageProvider {
         // language-key check was written for, on a prefix it was not watching -- so the prefix is
         // in BUILT now and this cannot be the third time.
         add(WorkbayLang.guiKey("faces.chemical"), "Chemical faces");
-        add(WorkbayLang.guiKey("faces.tip"), "Click a face to cycle it in, out, off. Right-click steps back.");
+        add(WorkbayLang.guiKey("faces.tip"), "Click a face to cycle it in, out, unset. Right-click steps back.");
         add(WorkbayLang.guiKey("faces.face"), "Face: %s");
         add(WorkbayLang.guiKey("faces.role.none"), "Unset. With no face set, links use whichever "
             + "face answers.");
