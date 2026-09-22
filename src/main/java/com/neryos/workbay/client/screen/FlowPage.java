@@ -300,7 +300,26 @@ class FlowPage extends WorkbayPage {
         zoom = now;
         panX = (float) ((mouseX - viewLeft()) / now - overX);
         panY = (float) ((mouseY - viewTop()) / now - overY);
+        clampPan();
         return true;
+    }
+
+    /**
+     * <b>Keeps the map where it can be seen</b> (OPEN_ISSUES #124). The zoom is about the pointer,
+     * and nothing bounded the view after one: each notch towards a point right of centre pushed
+     * the left of the map further out, and two notches in the whole graph had drifted off the left
+     * edge. So after every zoom and every drag, per axis: a map that fits stays wholly inside the
+     * view, and a map bigger than the view always covers it, never leaving an empty band on one
+     * side while the other side is cut.
+     */
+    private void clampPan() {
+        panX = clampAxis(panX, graphW, viewW() / zoom);
+        panY = clampAxis(panY, graphH, canvasH / zoom);
+    }
+
+    private static float clampAxis(float pan, int graph, float view) {
+        float slack = view - graph;
+        return slack >= 0 ? Math.clamp(pan, 0, slack) : Math.clamp(pan, slack, 0);
     }
 
     @Override
@@ -316,10 +335,9 @@ class FlowPage extends WorkbayPage {
         }
         panX += (float) (dragX / zoom);
         panY += (float) (dragY / zoom);
-        // Never so far that the graph leaves the window entirely: a canvas you can lose is one a
-        // player has to close and reopen to get back.
-        panX = Math.clamp(panX, -graphW + 24 / zoom, viewW() / zoom - 24 / zoom);
-        panY = Math.clamp(panY, -graphH + 12 / zoom, canvasH / zoom - 12 / zoom);
+        // Never so far that the graph leaves the window: a canvas you can lose is one a player has
+        // to close and reopen to get back.
+        clampPan();
         return true;
     }
 
