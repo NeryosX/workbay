@@ -728,6 +728,76 @@ public class BusTests {
     }
 
     /**
+     * OPEN_ISSUES #131, the reported shape and nothing else: an ore chest feeding a hosted barrel
+     * read <em>Idle</em> for minutes with 576 raw iron in it. The suite already had
+     * {@link #extractBusPullsItemsIntoAHostedMachine} green, and every number in it is a number the
+     * report is not - rate 16 against the default 8, speed 10 against the default 20, the Connector
+     * on the chest's <b>top</b> face against a side one, and judged by waiting until the whole
+     * stack has arrived rather than by looking twenty ticks in, which is what a player does.
+     *
+     * <p><b>Nothing is set on this link.</b> It is made the way the Add button makes one and
+     * switched on, so rate and speed are whatever {@code linkDefaultRate} and {@code
+     * linkDefaultSpeed} ship as - the two asserts below pin them to 8 and 20 so this stops being
+     * the reported case loudly rather than quietly if those defaults ever move.
+     *
+     * <p>Both halves are asked separately and the failure names which one broke, because the two
+     * answers need different fixes: no iron in the barrel is a transfer fault, and iron in the
+     * barrel under a status that is not RUNNING is a status line that lies (#128's family).
+     */
+    @GameTest(timeoutTicks = 200)
+    @TestHolder(description = "A link made the way a player makes one - defaults untouched, "
+        + "Connector on the chest's side face - has moved iron and says so twenty ticks later.")
+    public static void aFreshSideFaceLinkMovesIronAndSaysSoWithinTwentyTicks(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(5, 5, 5));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            ServerLevel level = helper.getLevel();
+            GameTestPlayer player = helper.makeTickingMockServerPlayerInLevel(GameType.SURVIVAL);
+            BlockPos workbayPos = helper.absolutePos(new BlockPos(0, 1, 0));
+            BlockPos targetPos = helper.absolutePos(new BlockPos(4, 1, 4));
+
+            level.setBlock(targetPos, Blocks.CHEST.defaultBlockState(), Block.UPDATE_ALL);
+            if (level.getBlockEntity(targetPos) instanceof Container source) {
+                // 576, the reported pile: nine stacks, so the source is never the thing that runs out.
+                for (int slot = 0; slot < 9; slot++) {
+                    source.setItem(slot, new ItemStack(Items.RAW_IRON, 64));
+                }
+            }
+            WorkbayBlockEntity workbay = setUp(helper, workbayPos, player, new ItemStack(Blocks.BARREL));
+            WorkbayRecord record = workbay.record().orElseThrow();
+            ServerLevel backshop = level.getServer().getLevel(WorkbayDimensions.BACKSHOP);
+            BlockPos machinePos = BayGeometry.machinePos(record.bayColumn(), 0);
+
+            // north() and SOUTH: the Connector stands beside the chest and points into it, which is
+            // what clicking a side face gives. Every other item link in this file goes on the top.
+            BusConfig link = connect(helper, workbay, targetPos.north(), Direction.SOUTH, player)
+                .withMode(BusConfig.Mode.EXTRACT);
+            helper.assertValueEqual(link.rate(), 8, "the rate a link is born with");
+            helper.assertValueEqual(link.speed(), 20, "the speed a link is born with");
+            workbay.addBus(link);
+
+            helper.startSequence()
+                .thenIdle(20)
+                .thenExecute(() -> {
+                    int moved = countIn(backshop, machinePos, Items.RAW_IRON);
+                    BusRunner.BusStatus status = workbay.busStatus(link.id());
+                    if (moved <= 0) {
+                        throw new GameTestAssertException("items are not moving: the hosted barrel "
+                            + "holds " + moved + " raw iron twenty ticks after the link was "
+                            + "switched on, and the link reads " + status);
+                    }
+                    if (status != BusRunner.BusStatus.RUNNING) {
+                        throw new GameTestAssertException("items move and the status does not "
+                            + "follow: " + moved + " raw iron reached the hosted barrel and the "
+                            + "link reads " + status);
+                    }
+                })
+                .thenExecute(() -> tearDown(helper, workbayPos))
+                .thenSucceed();
+        });
+    }
+
+    /**
      * Rate and speed are the two numbers a player sets, so they have to mean exactly what the screen
      * says. A bus that quietly moves more than its rate is a bus nobody can plan around.
      */
