@@ -9,6 +9,9 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://github.com/neryosx/workbay"
+# NeoForge's own update notice: the Mods screen marks the mod when this file names a newer version
+# for the running Minecraft. Served off master, so it goes live on the push that follows a publish.
+updateJSONURL="https://raw.githubusercontent.com/neryosx/workbay/master/update.json"
 logoFile="workbay_logo.png"
 authors="Neryos"
 credits="Parts derived from EnderIO (Unlicense)."

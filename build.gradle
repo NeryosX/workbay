@@ -268,6 +268,29 @@ sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
 neoForge.ideSyncTask generateModMetadata
 
+// update.json is what NeoForge's update notice reads (mods.toml's updateJSONURL, off master). A
+// release that bumps mod_version without it would tell nobody, so the build refuses the pair out
+// of step: the version being built must be listed for this Minecraft and be both promos.
+var checkUpdateJson = tasks.register("checkUpdateJson") {
+    var json = layout.projectDirectory.file("update.json")
+    var version = mod_version
+    var mc = minecraft_version
+    inputs.file(json)
+    inputs.property("version", version)
+    doLast {
+        var parsed = new groovy.json.JsonSlurper().parse(json.asFile)
+        var listed = parsed[mc] instanceof Map && parsed[mc].containsKey(version)
+        var latest = parsed.promos?.get(mc + "-latest")
+        var recommended = parsed.promos?.get(mc + "-recommended")
+        if (!listed || latest != version || recommended != version) {
+            throw new GradleException("update.json is out of step with mod_version " + version
+                + ": list it under \"" + mc + "\" and set both " + mc + " promos to it"
+                + " (latest is " + latest + ", recommended " + recommended + ").")
+        }
+    }
+}
+tasks.named("check") { dependsOn checkUpdateJson }
+
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
