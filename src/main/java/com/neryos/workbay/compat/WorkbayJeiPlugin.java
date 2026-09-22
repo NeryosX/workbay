@@ -35,6 +35,38 @@ public class WorkbayJeiPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addGhostIngredientHandler(WorkbayScreen.class, new FilterSlots());
+        // OPEN_ISSUES #123: JEI stood its item list beside every one of these screens, which have
+        // no slots and nothing to look up. The list is only of use here while a filter slot can
+        // take a drag, so outside that the whole window is an area JEI keeps out of.
+        registration.addGuiContainerHandler(WorkbayScreen.class,
+            new mezz.jei.api.gui.handlers.IGuiContainerHandler<WorkbayScreen>() {
+                @Override
+                public List<Rect2i> getGuiExtraAreas(WorkbayScreen screen) {
+                    return WorkbayGuide.wantsIngredientList(screen) ? List.of() : whole(screen);
+                }
+            });
+        registration.addGuiContainerHandler(com.neryos.workbay.client.screen.RoomDoorScreen.class,
+            new mezz.jei.api.gui.handlers.IGuiContainerHandler<
+                com.neryos.workbay.client.screen.RoomDoorScreen>() {
+                @Override
+                public List<Rect2i> getGuiExtraAreas(
+                    com.neryos.workbay.client.screen.RoomDoorScreen screen) {
+                    return whole(screen);
+                }
+            });
+        registration.addGuiContainerHandler(com.neryos.workbay.client.screen.ConnectorScreen.class,
+            new mezz.jei.api.gui.handlers.IGuiContainerHandler<
+                com.neryos.workbay.client.screen.ConnectorScreen>() {
+                @Override
+                public List<Rect2i> getGuiExtraAreas(
+                    com.neryos.workbay.client.screen.ConnectorScreen screen) {
+                    return whole(screen);
+                }
+            });
+    }
+
+    private static List<Rect2i> whole(net.minecraft.client.gui.screens.Screen screen) {
+        return List.of(new Rect2i(0, 0, screen.width, screen.height));
     }
 
     /**

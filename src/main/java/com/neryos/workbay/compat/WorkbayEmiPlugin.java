@@ -26,6 +26,19 @@ public class WorkbayEmiPlugin implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
         registry.addDragDropHandler(WorkbayScreen.class, new FilterSlots());
+        // OPEN_ISSUES #123, EMI's half: the same whole-window exclusion as JEI's, for the same
+        // screens, and lifted the same way while a filter slot can take a drag.
+        registry.addExclusionArea(WorkbayScreen.class, (screen, out) -> {
+            if (!WorkbayGuide.wantsIngredientList(screen)) {
+                out.accept(new dev.emi.emi.api.widget.Bounds(0, 0, screen.width, screen.height));
+            }
+        });
+        registry.addExclusionArea(com.neryos.workbay.client.screen.RoomDoorScreen.class,
+            (screen, out) -> out.accept(
+                new dev.emi.emi.api.widget.Bounds(0, 0, screen.width, screen.height)));
+        registry.addExclusionArea(com.neryos.workbay.client.screen.ConnectorScreen.class,
+            (screen, out) -> out.accept(
+                new dev.emi.emi.api.widget.Bounds(0, 0, screen.width, screen.height)));
         // The same guide pages JEI shows, from the same list. EMI has no "add an info page" call:
         // an info page *is* a recipe in a built-in category, so this constructs one per item.
         for (WorkbayGuide.Page page : WorkbayGuide.pages()) {

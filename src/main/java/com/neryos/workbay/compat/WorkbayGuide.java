@@ -78,6 +78,15 @@ public final class WorkbayGuide {
     }
 
     /**
+     * Whether a recipe viewer's item list is of any use on this screen right now: only while a
+     * filter slot is drawn that takes a drag out of it. Both plugins ask this, so JEI and EMI
+     * appear and go at the same moment (OPEN_ISSUES #123).
+     */
+    public static boolean wantsIngredientList(com.neryos.workbay.client.screen.WorkbayScreen screen) {
+        return !screen.ghostTargets().isEmpty();
+    }
+
+    /**
      * One item's page: the thing it is about, and the paragraphs, in order. {@code brief} is what
      * the item's own tooltip shows behind Shift - the same paragraphs for every page but the
      * Workbay's, whose three numbered steps are about the screen and are taught on it (the empty
