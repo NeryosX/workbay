@@ -226,6 +226,7 @@ public class WorkbayMenu extends AbstractContainerMenu {
         if (record == null) {
             return;
         }
+        List<ItemStack> before = inventoryCopy(serverPlayer);
         switch (action) {
             case SELECT_BAY -> selectedBay = (int) Math.clamp(arg, 0, BayGeometry.MAX_BAYS - 1);
             case RACK -> rack(serverPlayer, record);
@@ -327,8 +328,31 @@ public class WorkbayMenu extends AbstractContainerMenu {
         // sync bug turns into a duplication or loss bug. inventoryMenu.broadcastChanges() is a
         // normal AbstractContainerMenu, wired to the player's real inventory, and calling it here
         // forces the same slot diff-and-sync every other menu gets for free once a tick.
+        //
+        // <b>And that alone reached the hotbar only</b> (OPEN_ISSUES #126). It sends as container
+        // 0, and while another menu is open the client applies container 0 to the nine hotbar
+        // slots and drops the rest -- so an upgrade fitted from the main inventory, or a machine
+        // ejected into it, stayed drawn until the player clicked the slot. Container -2 is
+        // vanilla's "this inventory slot, whatever is open", which is what pick-block uses.
         serverPlayer.inventoryMenu.broadcastChanges();
+        for (int slot = 0; slot < before.size(); slot++) {
+            ItemStack now = serverPlayer.getInventory().getItem(slot);
+            if (!ItemStack.matches(before.get(slot), now)) {
+                serverPlayer.connection.send(new net.minecraft.network.protocol.game
+                    .ClientboundContainerSetSlotPacket(-2, 0, slot, now.copy()));
+            }
+        }
         refreshNow();
+    }
+
+    /** Every slot of the player's own inventory, copied, so an action's changes can be found. */
+    private static List<ItemStack> inventoryCopy(ServerPlayer serverPlayer) {
+        net.minecraft.world.entity.player.Inventory inventory = serverPlayer.getInventory();
+        List<ItemStack> copy = new ArrayList<>(inventory.getContainerSize());
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            copy.add(inventory.getItem(slot).copy());
+        }
+        return copy;
     }
 
     /**

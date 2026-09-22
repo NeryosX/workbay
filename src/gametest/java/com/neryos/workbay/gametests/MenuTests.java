@@ -1288,4 +1288,53 @@ public class MenuTests {
             helper.succeed();
         });
     }
+
+    /**
+     * <b>OPEN_ISSUES #126: an upgrade fitted from the inventory stayed drawn there.</b> The server
+     * took it; the client kept a ghost until the slot was clicked. The menu has no slots, so its
+     * sync went through the player's inventory menu as container 0 -- and a client with another
+     * menu open applies container 0 to the hotbar only. This reads the packets the way that client
+     * does: for a slot off the hotbar, only container -2 reaches it.
+     *
+     * <p>The plate is put in slot 20, off the hotbar, because the hotbar is the half that always
+     * worked and a test there could not fail.
+     */
+    @GameTest
+    @TestHolder(description = "An upgrade fitted from the main inventory leaves no ghost on the client.")
+    public static void anUpgradeFittedFromTheInventoryLeavesNoGhost(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 3, 3));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            ServerLevel level = helper.getLevel();
+            GameTestPlayer player = helper.makeTickingMockServerPlayerInLevel(GameType.SURVIVAL);
+            BlockPos workbayPos = helper.absolutePos(new BlockPos(1, 1, 1));
+            WorkbayBlockEntity workbay = placeWorkbay(helper, workbayPos, player);
+            WorkbayMenu menu = menuFor(workbay, player);
+            player.containerMenu = menu;
+            int slot = 20;
+            helper.assertFalse(net.minecraft.world.inventory.InventoryMenu.isHotbarSlot(slot)
+                || slot < 9, "slot 20 has to be off the hotbar, or this test cannot fail");
+            player.getInventory().setItem(slot, new ItemStack(WBItems.EXPANSION_PLATE.get()));
+
+            menu.act(WorkbayAction.INSTALL_UPGRADE, WorkbayUpgrade.EXPANSION_PLATE.ordinal(),
+                Optional.empty());
+            helper.assertValueEqual(workbay.record().orElseThrow().upgrades()
+                .installed(WorkbayUpgrade.EXPANSION_PLATE), 1, "plates fitted");
+            helper.assertTrue(player.getInventory().getItem(slot).isEmpty(),
+                "the server still has the plate in slot 20");
+
+            // What a client with the Workbay screen open would apply to inventory slot 20.
+            java.util.List<ItemStack> seen = player.getOutboundPackets(
+                    net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket.class)
+                .filter(packet -> packet.getContainerId() == -2 && packet.getSlot() == slot)
+                .map(net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket::getItem)
+                .toList();
+            helper.assertFalse(seen.isEmpty(), "the client was never told slot 20 changed");
+            helper.assertTrue(seen.getLast().isEmpty(),
+                "the client was told slot 20 holds " + seen.getLast());
+
+            level.setBlock(workbayPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+            helper.succeed();
+        });
+    }
 }
