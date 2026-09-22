@@ -1,11 +1,12 @@
 {
   "homepage": "https://github.com/neryosx/workbay/releases",
   "1.21.1": {
+    "1.1.0": "Onboarding without a recipe viewer, no ghost upgrade stack, one name per Connector, a calmer FLOW map, an update notice.",
     "1.0.1": "A Workbay holding no network opens with anything in hand; the first tab's tooltip reads Bays.",
     "1.0.0": "First release."
   },
   "promos": {
-    "1.21.1-latest": "1.0.1",
-    "1.21.1-recommended": "1.0.1"
+    "1.21.1-latest": "1.1.0",
+    "1.21.1-recommended": "1.1.0"
   }
 }

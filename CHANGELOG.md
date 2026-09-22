@@ -2,6 +2,24 @@
 
 The top section is what goes out with the release. Newest first.
 
+## 1.1.0 - 2026-09-23
+
+Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies. Worlds from 1.0 open unchanged.
+
+- **Playing without JEI or EMI.** Each upgrade says what it is made of and that a Housing in your
+  inventory unlocks its recipe, on the item and on its UPGRADES row. *Backshop* is explained where
+  it is first met; Rate, Speed and the face cube's letters answer a hover; every room line says to
+  right-click the door; Eject on an empty bay and the lock both say what happened.
+- **No ghost stack** after fitting an upgrade from the inventory; **no contradiction** on an
+  emptied Workbay at the network limit; **no server line cut short** on a screen.
+- **A Connector has one name everywhere**: the block it stands on, not its coordinates, with its
+  place in front when two stand on the same kind of block. Racking and ejecting have subtitles.
+- **FLOW** stays in view through a zoom, draws one arrow for links that share both ends, a type
+  and a direction, and its pips walk instead of racing.
+- **JEI and EMI keep out of Workbay screens** unless a filter slot is open to drag into.
+- **An update notice** on the Mods screen, and **one line of thanks** on your first join ever;
+  `greeting = false` silences it. The server config is `config/workbay-server.toml`.
+
 ## 1.0.1 - 2026-09-18
 
 Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies. Worlds from 1.0.0 open unchanged.
