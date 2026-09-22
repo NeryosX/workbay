@@ -197,6 +197,14 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("button.eject"), "Eject");
         add(WorkbayLang.guiKey("button.eject.tip"), "Take this machine out of its bay, with "
             + "everything inside it.");
+        // #130: the button was greyed with no reason, and a click on it said nothing at all.
+        add(WorkbayLang.guiKey("button.eject.empty.tip"), "Nothing is racked in this bay, so "
+            + "there is nothing to eject.");
+        add(WorkbayLang.messageKey("eject_empty"), "This bay is empty. There is nothing to eject.");
+        // #130: the lock changed only its own tooltip, so a click on it looked like nothing.
+        add(WorkbayLang.messageKey("locked_now"), "Locked. This Workbay opens for you alone now.");
+        add(WorkbayLang.messageKey("unlocked_now"), "Unlocked. Anyone can open this Workbay and "
+            + "work its bays; the lock and the upgrades stay yours.");
         add(WorkbayLang.guiKey("links.target.tip"), "What this link is pointed at.");
         add(WorkbayLang.guiKey("links.rename.tip"), "Right-click to name this Connector. The "
             + "name is the block's, so every channel through it reads the same. Empty goes back "
@@ -234,7 +242,8 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.messageKey("remote_opened"), "Opened from here: %s. The machine itself "
             + "stays in its bay.");
         add(WorkbayLang.guiKey("bay.empty"), "Empty bay");
-        add(WorkbayLang.guiKey("bay.empty.tip"), "Hold a machine and click here to rack it.");
+        add(WorkbayLang.guiKey("bay.empty.tip"), "Nothing racked yet. Click to pick this bay, then "
+            + "hold a machine and click the large slot beside its name.");
         add(WorkbayLang.guiKey("bay.rack.tip"), "Hold a machine and click to rack it in this bay.");
         // The same instruction, drawn rather than hovered: a fresh Workbay is an empty rack and
         // the tooltip was the only place that said what to do about it. BaysPage#machine.
@@ -267,6 +276,11 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("faces.role.input"), "Input. Links may push into this face.");
         add(WorkbayLang.guiKey("faces.role.output"), "Output. Links may pull out of this face.");
         add(WorkbayLang.guiKey("faces.drag"), "Drag to turn");
+        // #130: T, F and L were letters with no word behind them. The cube's hover says which face,
+        // what it is set to, and how to change it.
+        add(WorkbayLang.guiKey("faces.cube.tip"), "Each letter is a face of the machine: Top, "
+            + "Bottom, Front, Back, Left, Right. Click one to cycle it in, out, unset; right-click "
+            + "steps back. Drag anywhere else to turn the block.");
         add(WorkbayLang.guiKey("faces.empty"), "Rack a machine to set its faces.");
 
         add(WorkbayLang.guiKey("links.none"), "No channels on this bay yet. Press Add and pick a "
@@ -364,7 +378,7 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.messageKey("room_copy"), "This is a copy of a room, not the room. Only "
             + "the item that came out of the bay opens it.");
         add(WorkbayLang.messageKey("room_unknown"), "This world has no record of that room.");
-        add(WorkbayLang.messageKey("room_entered"), "%s. The lit doors lead out.");
+        add(WorkbayLang.messageKey("room_entered"), "%s. Right-click a lit door to leave.");
         add(WorkbayLang.messageKey("room_cycle"), "That would put a room inside itself.");
         add(WorkbayLang.messageKey("connector_in_sleeping_room"), "Connector placed on %s. This "
             + "room is in no bay; it joins a network the moment the room is loaded into one.");
@@ -431,12 +445,13 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("links.unknown"), "not loaded");
         // SPEC.md 5's link settings: what one link moves in a step, and how long it waits.
         add(WorkbayLang.guiKey("links.rate"), "Rate");
-        add(WorkbayLang.guiKey("links.rate.tip"), "How much this link moves in one step. Hold "
-            + "shift for ten at a time, ctrl for a hundred.");
+        add(WorkbayLang.guiKey("links.rate.tip"), "How much this link moves in one step: that many "
+            + "items, %s mB of fluid or chemical, or %s FE, for each one on the dial. An Impeller "
+            + "doubles it. Hold shift for ten at a time, ctrl for a hundred.");
         add(WorkbayLang.guiKey("links.speed"), "Speed");
         add(WorkbayLang.guiKey("links.speed.ticks"), "%st");
-        add(WorkbayLang.guiKey("links.speed.tip"), "Ticks between steps. Plus is faster; the "
-            + "list is fixed so every speed divides the wheel.");
+        add(WorkbayLang.guiKey("links.speed.tip"), "How long this link waits between steps, in "
+            + "ticks: 20t is one second. Plus is faster. An Impeller halves the wait.");
         // What a link into a room is called, on the LINKS row and on the flow map's node. The
         // block first, because the room is the thing that repeats down a chain and the block is
         // the thing that tells one stage from the next.
@@ -567,7 +582,8 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("upgrade.anchor"), "Anchor");
         add(WorkbayLang.guiKey("upgrade.anchor.desc"), "While away");
         add(WorkbayLang.guiKey("upgrade.anchor.long"),
-            "Keeps the Backshop running with nobody standing here. It holds this Workbay's own "
+            "Keeps the Backshop - the private dimension your bays stand in - running with nobody "
+            + "standing here. It holds this Workbay's own "
             + "chunk and its bay column while you are online, anywhere in the world; log out and "
             + "they are let go until you are back.");
 
@@ -603,8 +619,8 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("room.size"), "%1$s x %1$s x %1$s inside");
         add(WorkbayLang.guiKey("room.unentered"), "Not entered yet");
         add(WorkbayLang.guiKey("rooms.enter"), "Enter");
-        add(WorkbayLang.guiKey("rooms.enter.tip"), "Go and stand in it. A door in the middle of "
-            + "each wall brings you back out beside this Workbay - and a Connector placed "
+        add(WorkbayLang.guiKey("rooms.enter.tip"), "Go and stand in it. Right-click the lit door in "
+            + "the middle of any wall to come back out beside this Workbay - and a Connector placed "
             + "inside joins this network, so a barrel in a room is a stage in a chain.");
         add(WorkbayLang.guiKey("button.pull"), "Pull the room out");
         add(WorkbayLang.guiKey("button.pull.tip"), "Takes the room out as an item, with "
@@ -666,8 +682,8 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("upgrade.resonator.desc"), "Any dimension");
         add(WorkbayLang.guiKey("upgrade.resonator.long"),
             "Lets a link's two ends stand in different dimensions. Without one, a Connector "
-            + "in the Nether cannot be reached from an overworld Workbay -- the Backshop "
-            + "itself always can.");
+            + "in the Nether cannot be reached from an overworld Workbay. The Backshop, where the "
+            + "bays stand, always can.");
         // The Impeller shipped with no name at all: its row on the upgrades screen drew
         // "gui.workbay.upgr..." and "gui.workbay.u...", in red boxes, because the screen builds
         // this key from the enum and nobody added the row when the enum grew. Found by opening
@@ -703,7 +719,9 @@ public class WBLanguageProvider extends LanguageProvider {
             + "hand - to pair it to this Workbay.");
         add(WorkbayLang.messageKey("upgrade_maxed"), "This Workbay already has as many of those as "
             + "it takes.");
-        add(WorkbayLang.messageKey("upgrade_missing"), "You don't have one of those to install.");
+        add(WorkbayLang.messageKey("upgrade_missing"), "You don't have one of those to install. "
+            + "Every upgrade is made on a Housing; have one in your inventory and their recipes "
+            + "appear in the recipe book.");
 
         // Tooltips. SPEC.md §6: at most four lines unshifted.
         add(WorkbayLang.tooltipKey("hosting"), "Hosting: %s / %s machines");
@@ -727,6 +745,19 @@ public class WBLanguageProvider extends LanguageProvider {
             + "halves the wait between steps: four times the throughput, and two may be fitted, "
             + "for sixteen.");
         add(WorkbayLang.tooltipKey("more"), "Hold Shift for the guide");
+        // OPEN_ISSUES #130: what each upgrade is made of, on the item and on its UPGRADES row -- the
+        // row is where a player without a recipe viewer stands wondering. Checked against
+        // WBRecipeProvider#upgrade: three Shopsteel round the core, a Housing under it.
+        add(WorkbayLang.tooltipKey("recipe.expansion_plate"), "Made on a Housing, with three "
+            + "Shopsteel and an iron ingot.");
+        add(WorkbayLang.tooltipKey("recipe.resonator"), "Made on a Housing, with three Shopsteel "
+            + "and an Eye of Ender.");
+        add(WorkbayLang.tooltipKey("recipe.impeller"), "Made on a Housing, with three Shopsteel "
+            + "and a Breeze Rod.");
+        add(WorkbayLang.tooltipKey("recipe.anchor"), "Made on a Housing, with three Shopsteel and "
+            + "a Heart of the Sea.");
+        add(WorkbayLang.guiKey("upgrades.unlock"), "Have a Housing in your inventory and the recipe "
+            + "appears in your recipe book.");
         add(WorkbayLang.tooltipKey("room_size"), "%1$s x %1$s x %1$s inside. Goes in a bay.");
         add(WorkbayLang.tooltipKey("room_new"), "Nobody has been inside yet.");
         add(WorkbayLang.tooltipKey("room_built"), "Carries everything built in it.");
@@ -742,7 +773,7 @@ public class WBLanguageProvider extends LanguageProvider {
         // get a crafting grid and no sentence saying what the block is for. The Workbay's page is
         // the only one that teaches a sequence, because it is the only one anybody reads first.
         add(WorkbayLang.infoKey("workbay.1"), "A Workbay hosts other mods' machines inside a "
-            + "private dimension and reaches them wirelessly. A racked machine runs exactly as it "
+            + "private dimension, the Backshop, and reaches them wirelessly. A racked machine runs exactly as it "
             + "did on your floor - it is out of sight, not out of the world. It does not save "
             + "TPS. What it saves is the floor space, and the cables.");
         add(WorkbayLang.infoKey("workbay.2"), "The first three things to do:");
@@ -776,8 +807,8 @@ public class WBLanguageProvider extends LanguageProvider {
             + "resource, direction, filter and rate. Its name is the block's, so renaming it "
             + "anywhere renames it everywhere.");
         add(WorkbayLang.infoKey("connector.3"), "A link out of the dimension its Workbay stands in "
-            + "needs a Resonator. Anything inside that dimension, and anything in the Backshop, "
-            + "does not.");
+            + "needs a Resonator. Anything inside that dimension, and anything in the Backshop "
+            + "(the private dimension the bays and rooms stand in), does not.");
 
 
         add(WorkbayLang.infoKey("expansion_plate.1"), "One more bay on the rack, consumed on install. "
@@ -791,14 +822,15 @@ public class WBLanguageProvider extends LanguageProvider {
             + "be destroyed - not by lava, fire or the void - and a copy of it opens "
             + "nothing: only the item that came out of the bay is the room.");
         add(WorkbayLang.infoKey("room.3"), "Its name, its colour, its biome and its guests are "
-            + "on the bay that holds it. The four doors in the walls are the way out, always "
-            + "beside the Workbay holding the room, and they cannot be broken.");
+            + "on the bay that holds it. Right-click any of the four doors in the walls to leave: "
+            + "they always let you out beside the Workbay holding the room, and they cannot be "
+            + "broken.");
         add(WorkbayLang.infoKey("room.4"), "A Connector placed inside a room joins the network "
             + "holding the room, and moves with the room when it moves. A room can hold a Workbay "
             + "or another room; it only cannot end up inside itself.");
 
-        add(WorkbayLang.infoKey("anchor.1"), "Keeps the Backshop running with nobody standing at "
-            + "the Workbay, so a chain of machines out the back carries on while you are away "
+        add(WorkbayLang.infoKey("anchor.1"), "Keeps the Backshop - the private dimension the "
+            + "bays stand in - running with nobody standing at the Workbay, so a chain of machines out the back carries on while you are away "
             + "doing something else.");
         add(WorkbayLang.infoKey("anchor.2"), "It holds nothing while its owner is offline. Log out "
             + "and the chunks are let go; log back in and they are taken again, with the chain "

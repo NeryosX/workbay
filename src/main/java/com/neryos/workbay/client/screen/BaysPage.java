@@ -648,7 +648,15 @@ class BaysPage extends WorkbayPage {
         boolean canEject = !empty;
         actionButton(g, mouseX, mouseY, x(50), WBIcons.EJECT, canEject, false,
             () -> screen.send(WorkbayAction.EJECT),
-            WorkbayScreen.gui("button.eject"), WorkbayScreen.gui("button.eject.tip"));
+            WorkbayScreen.gui("button.eject"),
+            WorkbayScreen.gui(canEject ? "button.eject.tip" : "button.eject.empty.tip"));
+        if (!canEject) {
+            // Greyed, and still answering (#130): a click on it said nothing at all, which is the
+            // one thing a button may never do. The server's refusal is the line; registered after
+            // the button, so this wins the click.
+            screen.hit(x(50), y(98), 20, 20, () -> screen.send(WorkbayAction.EJECT),
+                WorkbayScreen.gui("button.eject"), WorkbayScreen.gui("button.eject.empty.tip"));
+        }
         boolean unlocked = bay.state() != WorkbaySnapshot.State.LOCKED;
         actionButton(g, mouseX, mouseY, x(74), WBIcons.RENAME, unlocked, false,
             () -> screen.beginRename(bayRename(bay.index()), x(98), y(53), room, 14, bay.name(),
@@ -905,6 +913,22 @@ class BaysPage extends WorkbayPage {
             PREVIEW.renderFaces(g, screen.font(), x(CUBE_CX), y(CUBE_CY), CUBE_SIZE,
                 bay.faces(), faceType);
             g.disableScissor();
+            // #130: the letters had no word behind them. Over a chip the hover names that face and
+            // what it is set to; anywhere else in the well it names all six. The page takes the
+            // press before any hit is asked, so this region answers hovers and nothing else. Not
+            // while a filter panel stands over the well: that panel answers its own hovers.
+            Direction under = inWell(mouseX, mouseY)
+                ? PREVIEW.faceAt(mouseX, mouseY, x(CUBE_CX), y(CUBE_CY), CUBE_SIZE) : null;
+            if (under != null) {
+                screen.tip(x(WELL_X), y(WELL_Y), WELL_W, WELL_H,
+                    WorkbayScreen.gui("links.face." + BlockPreview.faceKey(under)),
+                    WorkbayScreen.gui("faces.role." + bay.faces().role(faceType, under).name()
+                        .toLowerCase(java.util.Locale.ROOT)),
+                    WorkbayScreen.gui("faces.tip"));
+            } else if (editingFilter == null) {
+                screen.tip(x(WELL_X), y(WELL_Y), WELL_W, WELL_H,
+                    WorkbayScreen.gui("faces.drag"), WorkbayScreen.gui("faces.cube.tip"));
+            }
         }
 
         // Under the well: the turn hint, then the in/out key, both inside the well's own width and
@@ -1674,7 +1698,14 @@ class BaysPage extends WorkbayPage {
             }
         }
 
+        // The label and the figure answer a hover too (#130): the tooltip lived on the two 14px
+        // buttons only, and "Rate 8" read as a bare number nobody could ask about. Registered
+        // first, so the buttons over the same line still win their own clicks and tooltips.
+        Component rateTip = WorkbayScreen.gui("links.rate.tip",
+            BusRunner.MB_PER_RATE, BusRunner.FE_PER_RATE);
+        Component speedTip = WorkbayScreen.gui("links.speed.tip");
         int left = x(LIST_X + 10);
+        screen.tip(left, py, 36 + 66, STEP_H, WorkbayScreen.gui("links.rate"), rateTip);
         text(g, WorkbayScreen.gui("links.rate").getString(), left, py + 3, 34, Draw.TEXT_DIM);
         stepper(g, mouseX, mouseY, left + 36, py, String.valueOf(rate),
             // No ceiling here on purpose. The ceiling is linkMaxRate, which is a *server* config
@@ -1682,9 +1713,10 @@ class BaysPage extends WorkbayPage {
             // that raised it. The server clamps, and the value that comes back is the truth.
             step -> screen.send(WorkbayAction.SET_LINK_RATE,
                 Math.max(1, (long) rate + step), config.id()),
-            WorkbayScreen.gui("links.rate"), WorkbayScreen.gui("links.rate.tip"));
+            WorkbayScreen.gui("links.rate"), rateTip);
 
         int right = x(LIST_X + LIST_W / 2 + 16);
+        screen.tip(right, py, 42 + 66, STEP_H, WorkbayScreen.gui("links.speed"), speedTip);
         text(g, WorkbayScreen.gui("links.speed").getString(), right, py + 3, 40, Draw.TEXT_DIM);
         final int at = index;
         stepper(g, mouseX, mouseY, right + 42,
@@ -1692,7 +1724,7 @@ class BaysPage extends WorkbayPage {
             // A faster link waits *less*, so plus has to move down the list or the button lies.
             step -> screen.send(WorkbayAction.SET_LINK_SPEED,
                 Math.clamp(at - Integer.signum(step), 0, BusConfig.SPEEDS.length - 1), config.id()),
-            WorkbayScreen.gui("links.speed"), WorkbayScreen.gui("links.speed.tip"));
+            WorkbayScreen.gui("links.speed"), speedTip);
     }
 
     /** {@code [-] value [+]}, with the modifier scaling SPEC.md 5 asks for. */

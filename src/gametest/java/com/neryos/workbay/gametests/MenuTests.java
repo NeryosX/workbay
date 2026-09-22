@@ -1237,4 +1237,55 @@ public class MenuTests {
             helper.succeed();
         });
     }
+
+    /**
+     * <b>OPEN_ISSUES #130: two buttons that could be pressed and say nothing.</b> Eject on an
+     * empty bay returned in silence, and the lock changed only its own tooltip. Each now puts a
+     * line on the action bar. The positive control is a real eject in the same window: a bay that
+     * held a barrel must not say it was empty.
+     */
+    @GameTest
+    @TestHolder(description = "Eject on an empty bay and the lock toggle each say what happened.")
+    public static void anEmptyEjectAndTheLockEachSayWhatHappened(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 3, 3));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            ServerLevel level = helper.getLevel();
+            GameTestPlayer player = helper.makeTickingMockServerPlayerInLevel(GameType.SURVIVAL);
+            BlockPos workbayPos = helper.absolutePos(new BlockPos(1, 1, 1));
+            WorkbayBlockEntity workbay = placeWorkbay(helper, workbayPos, player);
+            WorkbayRecord record = workbay.record().orElseThrow();
+            ServerLevel backshop = level.getServer().getLevel(WorkbayDimensions.BACKSHOP);
+            WorkbayTickets.force(backshop, record.id(), record.bayColumn());
+            WorkbayMenu menu = menuFor(workbay, player);
+            String empty = com.neryos.workbay.WorkbayLang.messageKey("eject_empty");
+
+            menu.act(WorkbayAction.EJECT, 0, Optional.empty());
+            helper.assertValueEqual(LockTests.lastRefusal(player), empty,
+                "the line after Eject on an empty bay");
+
+            player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Blocks.BARREL));
+            menu.act(WorkbayAction.RACK, 0, Optional.empty());
+            menu.act(WorkbayAction.EJECT, 0, Optional.empty());
+            helper.assertValueEqual(LockTests.actionBar(player).filter(empty::equals).count(), 1L,
+                "empty-bay lines after ejecting a racked barrel");
+            helper.assertValueEqual(player.getInventory().countItem(Items.BARREL), 1,
+                "barrels back in the inventory after the eject");
+
+            boolean wasLocked = workbay.record().orElseThrow().locked();
+            menu.act(WorkbayAction.TOGGLE_LOCK, 0, Optional.empty());
+            helper.assertValueEqual(LockTests.lastRefusal(player),
+                com.neryos.workbay.WorkbayLang.messageKey(wasLocked ? "unlocked_now" : "locked_now"),
+                "the line after the first click on the lock");
+            menu.act(WorkbayAction.TOGGLE_LOCK, 0, Optional.empty());
+            helper.assertValueEqual(LockTests.lastRefusal(player),
+                com.neryos.workbay.WorkbayLang.messageKey(wasLocked ? "locked_now" : "unlocked_now"),
+                "the line after the second click on the lock");
+            helper.assertValueEqual(workbay.record().orElseThrow().locked(), wasLocked,
+                "the lock after two clicks");
+
+            level.setBlock(workbayPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+            helper.succeed();
+        });
+    }
 }

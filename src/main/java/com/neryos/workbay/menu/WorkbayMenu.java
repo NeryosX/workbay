@@ -672,6 +672,9 @@ public class WorkbayMenu extends AbstractContainerMenu {
             BayGeometry.machinePos(record.bayColumn(), selectedBay));
         ItemStack machine = BayHosting.eject(backshop, record.bayColumn(), selectedBay, serverPlayer);
         if (machine.isEmpty()) {
+            // #130: the one button on the panel that could be pressed and say nothing.
+            WorkbaySounds.refuse(serverPlayer,
+                com.neryos.workbay.WorkbayLang.message("eject_empty"));
             return;
         }
         WorkbaySounds.ejected(workbay.getLevel(), workbay.getBlockPos(), was);
@@ -697,6 +700,9 @@ public class WorkbayMenu extends AbstractContainerMenu {
             return;
         }
         RoomRegistry.get(serverPlayer.server).put(record.withLocked(!record.locked()));
+        // #130: the lock changed only its own tooltip, so a click on it read as nothing happening.
+        WorkbaySounds.confirm(serverPlayer, com.neryos.workbay.WorkbayLang.message(
+            record.locked() ? "unlocked_now" : "locked_now"));
     }
 
     private void cycleFace(ServerPlayer serverPlayer, WorkbayRecord record, int packed,

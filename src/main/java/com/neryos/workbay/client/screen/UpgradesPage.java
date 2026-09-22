@@ -160,9 +160,12 @@ class UpgradesPage extends WorkbayPage {
             // in reverse registration order. A row carried a name and a two-word line and had no
             // hover at all, so the only way to the sentence explaining it was to point at a 22px
             // button whose own tooltip is about buying it. OPEN_ISSUES #68.
+            // The recipe is the row's last line (#130): without a recipe viewer this row is where a
+            // player learns an upgrade exists, and it never said what one is made of.
+            net.minecraft.network.chat.Component recipe = recipeLine(upgrade);
             screen.hit(px, py, ROW_W, ROW_H, () -> { },
                 WorkbayScreen.gui("upgrade." + upgrade.getSerializedName()),
-                WorkbayScreen.gui("upgrade." + upgrade.getSerializedName() + ".long"));
+                WorkbayScreen.gui("upgrade." + upgrade.getSerializedName() + ".long"), recipe);
 
             ItemStack icon = new ItemStack(upgrade.item());
             g.renderItem(icon, px + 6, py + 9);
@@ -201,8 +204,15 @@ class UpgradesPage extends WorkbayPage {
                     : new net.minecraft.network.chat.Component[] {
                         WorkbayScreen.gui(key),
                         WorkbayScreen.gui(key + ".long"),
-                        WorkbayScreen.gui("upgrades.add", WorkbayScreen.gui(key)) });
+                        WorkbayScreen.gui("upgrades.add", WorkbayScreen.gui(key)), recipe });
         }
+    }
+
+    /** What the upgrade is made of and where its recipe comes from, as one tooltip paragraph. */
+    private static net.minecraft.network.chat.Component recipeLine(WorkbayUpgrade upgrade) {
+        return com.neryos.workbay.WorkbayLang.tooltip("recipe." + upgrade.getSerializedName())
+            .append(" ").append(WorkbayScreen.gui("upgrades.unlock"))
+            .withStyle(net.minecraft.ChatFormatting.GRAY);
     }
 
 }

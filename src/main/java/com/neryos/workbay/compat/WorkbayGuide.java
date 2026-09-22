@@ -54,6 +54,12 @@ public final class WorkbayGuide {
             lines.add(Math.min(1, lines.size()),
                 Component.translatable(own).withStyle(net.minecraft.ChatFormatting.GRAY));
         }
+        // OPEN_ISSUES #130: an upgrade's recipe unlocks on a Housing, and nothing on it said so.
+        String recipe = WorkbayLang.tooltipKey("recipe." + id.getPath());
+        if (net.minecraft.client.resources.language.I18n.exists(recipe)) {
+            lines.add(Math.min(2, lines.size()),
+                Component.translatable(recipe).withStyle(net.minecraft.ChatFormatting.GRAY));
+        }
         Page page = pages().stream().filter(p -> p.item().get().asItem() == item).findFirst()
             .orElse(null);
         if (page == null) {

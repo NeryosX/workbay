@@ -416,6 +416,14 @@ public class WorkbayScreen extends AbstractContainerScreen<WorkbayMenu> {
         hits.add(new Hit(x, y, w, h, null, () -> { }, null, false));
     }
 
+    /**
+     * A region that only answers a hover: a label, a figure, or a well whose clicks the page takes
+     * itself. No ring, because nothing here is a button.
+     */
+    public void tip(int x, int y, int w, int h, Component... tooltip) {
+        hits.add(new Hit(x, y, w, h, null, () -> { }, List.of(tooltip), false));
+    }
+
     /** Registers a clickable region in screen coordinates. Called by a page while it draws. */
     public void hit(int x, int y, int w, int h, Runnable onClick, Component... tooltip) {
         hits.add(new Hit(x, y, w, h, null, onClick, tooltip.length == 0 ? null : List.of(tooltip), true));
