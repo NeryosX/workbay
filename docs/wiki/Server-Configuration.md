@@ -20,6 +20,7 @@ Top-level keys in `workbay-server.toml`.
 | `maxNetworksPerPlayer` | 2 | 1 - 64 | How many separate Workbay networks one player may own. |
 | `roomsLoadWithWorkbay` | false | - | Off: a room runs only while somebody is standing in it. On: each room in a bay is one more loaded chunk for as long as the Workbay's own chunk is loaded. |
 | `blockSounds` | true | - | Whether a Workbay makes any sound at its own position. |
+| `greeting` | true | - | Whether a player meeting Workbay for the first time gets its one line in chat, with a link to the issue tracker. Said once per game, remembered by the client; off, the mod never writes to chat on joining. |
 | `allowCrossDimensionLinks` | true | - | Whether the Resonator upgrade does anything. Off means no link may cross a dimension, and the row reads *Needs a Resonator* for good. |
 
 ## Links and throughput

@@ -82,6 +82,7 @@ public class WorkbayConfig {
         public final ModConfigSpec.BooleanValue roomsLoadWithWorkbay;
         public final ModConfigSpec.BooleanValue allowCrossDimensionLinks;
         public final ModConfigSpec.BooleanValue blockSounds;
+        public final ModConfigSpec.BooleanValue greeting;
         public final ModConfigSpec.IntValue maxNetworksPerPlayer;
 
         public final ModConfigSpec.IntValue linkDefaultRate;
@@ -209,6 +210,15 @@ public class WorkbayConfig {
                     "The sounds that answer your own click - a refusal, a confirmation - are not",
                     "affected: they are feedback on something you just did, not noise from a block.")
                 .define("blockSounds", true);
+
+            greeting = builder
+                .comment("Whether a player meeting Workbay for the first time gets its one line in",
+                    "chat: thanks, a word that the mod is new, and a link to the issue tracker.",
+                    "It is said once per game, remembered by the client, and never again.",
+                    "Turn it off and the mod never writes to chat on joining. A modpack wants",
+                    "this in defaultconfigs/workbay-server.toml: a config file already written",
+                    "into a world keeps whatever it said.")
+                .define("greeting", true);
 
             maxNetworksPerPlayer = builder
                 .comment("How many separate Workbay networks one player may own. One Workbay block",

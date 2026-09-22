@@ -39,6 +39,9 @@ Client options are an ordinary client config at `config/workbay-client.toml`. Th
 | `maxNetworksPerPlayer` | `2` | Your pack is built around one big base, or around many small ones. |
 | `throughput.powerPerLinkPerTick` / `throughput.powerPerMove` | `0` | You want links to cost FE. Both zero means a Workbay is free to run, and every power readout stays hidden while they are. |
 | `allowCrossDimensionLinks` | `true` | You do not want a network reaching into the Nether or the End. This disables the Resonator. |
+| `greeting` | `true` | You want the mod silent in chat. On, a player's first join ever prints one line (thanks, and the issue tracker) and nothing after it. |
+
+Workbay's update notice on the Mods screen is NeoForge's own. `versionCheck = false` in `config/fml.toml` turns it off for every mod in the pack at once.
 
 ## Deciding what may be hosted
 

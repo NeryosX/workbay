@@ -69,6 +69,10 @@ public class WBLanguageProvider extends LanguageProvider {
             + "account. Lose the block and a fresh, uncrafted Workbay picks it straight back up.");
         add(WorkbayLang.messageKey("network_created"), "%s created. Everything in it is yours; "
             + "break the block and it sleeps here until you put one back.");
+        // The one line the mod says unasked, once per game (client/Greeting). %s is the link.
+        add(WorkbayLang.messageKey("greeting"), "Thanks for trying Workbay. It is a new mod, so if "
+            + "anything misbehaves, please say so on %s.");
+        add(WorkbayLang.messageKey("greeting.link"), "the issue tracker");
         add(WorkbayLang.messageKey("network_reused"), "Workbay reconnected - same bays, same "
             + "links, same upgrades as before.");
         add(WorkbayLang.messageKey("network_cap_reached"), "You already own the maximum of %s "

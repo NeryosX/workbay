@@ -391,6 +391,8 @@
   "message.workbay.connector_unpaired": "This Connector isn't paired yet. Right-click a Workbay with it first.",
   "message.workbay.eject_empty": "This bay is empty. There is nothing to eject.",
   "message.workbay.filter_no_chemical": "There is no chemical in that tank to name. Fill it first, then list what is in it.",
+  "message.workbay.greeting": "Thanks for trying Workbay. It is a new mod, so if anything misbehaves, please say so on %s.",
+  "message.workbay.greeting.link": "the issue tracker",
   "message.workbay.guest_is_owner": "That is you. The room is already yours.",
   "message.workbay.guest_unknown": "%s is not online. A player has to be on the server to be invited.",
   "message.workbay.internal_link_needs_second_bay": "This Workbay only has one bay. Install an Expansion Plate before linking bay to bay.",
