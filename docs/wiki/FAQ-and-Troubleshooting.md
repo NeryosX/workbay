@@ -56,7 +56,7 @@ Yes, as deep as you like. What is refused is a loop - a Room going into a Workba
 
 ## Is there a limit on links?
 
-64 per network. Each player may own two networks by default, which a server can change in `<world>/serverconfig/workbay-server.toml`.
+64 per network. Each player may own two networks by default, which a server can change in `config/workbay-server.toml`.
 
 ## Something else is wrong
 

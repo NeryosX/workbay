@@ -18,11 +18,13 @@ Workbay adds one dimension of its own, `workbay:backshop`, for hosted machines a
 
 ## Shipping your own defaults
 
-The server options are a NeoForge **server** config, so the live file lives inside each world at `<world>/serverconfig/workbay-server.toml` rather than in the instance's `config/` folder. A new world copies its defaults from the instance's `defaultconfigs/` folder, which is where a pack puts its own values:
+The server options are a NeoForge **server** config. On NeoForge for 1.21.1 the live file is the instance's own, so a pack ships its values in:
 
 ```
-<instance>/defaultconfigs/workbay-server.toml
+<instance>/config/workbay-server.toml
 ```
+
+A single world can still override it with a copy in `<world>/serverconfig/workbay-server.toml`.
 
 Client options are an ordinary client config at `config/workbay-client.toml`. The third file, `config/workbay-mixins.properties`, is not TOML and is read before class transformation - see [[Server Configuration]].
 

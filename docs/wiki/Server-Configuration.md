@@ -2,11 +2,11 @@ Workbay has three config files.
 
 | File | Where it lives | Who it is for |
 | --- | --- | --- |
-| `workbay-server.toml` | `<world>/serverconfig/` - it is a NeoForge **server** config, so each world carries its own copy | The host. Everything on this page except the last two sections. |
+| `workbay-server.toml` | `config/` - a NeoForge **server** config; a copy in `<world>/serverconfig/` overrides it for that world | The host. Everything on this page except the last two sections. |
 | `workbay-client.toml` | `config/` in the instance | Each player, for their own client. |
 | `workbay-mixins.properties` | `config/` in the instance | The host, once. Read before Minecraft's own classes load, so it is the one file here that needs a full restart. |
 
-A new world copies its server config from the instance's `defaultconfigs/` folder, which is where a modpack ships its own values - see **[[Modpacks]]**.
+A modpack ships its own values in that same `config/` file - see **[[Modpacks]]**.
 
 Defaults below are what ships with the mod, and the range is what the file will accept.
 

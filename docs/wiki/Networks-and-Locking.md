@@ -14,7 +14,7 @@ Unlocking does not hand the network over. Even on an unlocked Workbay, the padlo
 
 ## Two networks per player
 
-By default each player may own **two networks** at a time. Server operators can change that in `<world>/serverconfig/workbay-server.toml` - see [[Server Configuration]].
+By default each player may own **two networks** at a time. Server operators can change that in `config/workbay-server.toml` - see [[Server Configuration]].
 
 ## Losing the block
 

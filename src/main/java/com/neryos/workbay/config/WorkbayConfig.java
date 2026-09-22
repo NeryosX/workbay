@@ -215,9 +215,8 @@ public class WorkbayConfig {
                 .comment("Whether a player meeting Workbay for the first time gets its one line in",
                     "chat: thanks, a word that the mod is new, and a link to the issue tracker.",
                     "It is said once per game, remembered by the client, and never again.",
-                    "Turn it off and the mod never writes to chat on joining. A modpack wants",
-                    "this in defaultconfigs/workbay-server.toml: a config file already written",
-                    "into a world keeps whatever it said.")
+                    "Turn it off and the mod never writes to chat on joining; a modpack ships",
+                    "it off in its own config/workbay-server.toml.")
                 .define("greeting", true);
 
             maxNetworksPerPlayer = builder
