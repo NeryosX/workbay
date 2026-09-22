@@ -102,6 +102,12 @@ class FlowPage extends WorkbayPage {
                 tips.add(bayTip(bay));
             }
         }
+        // One wire per pair of boxes, resource and direction. Five energy links from one cube into
+        // one machine were five arrows stacked in one lane, which reads as noise and says nothing a
+        // single arrow does not; a different resource or the other direction is a second fact and
+        // keeps its own arrow. A merged wire takes the most urgent colour among its links, and
+        // walks pips while any of them is moving.
+        Map<String, Integer> wireOf = new HashMap<>();
         for (WorkbaySnapshot.Link link : snap.links()) {
             Integer bayNode = index.get("bay:" + link.config().bay());
             if (bayNode == null) {
@@ -131,9 +137,22 @@ class FlowPage extends WorkbayPage {
                 isBay.add(false);
             }
             boolean insert = link.config().mode() == BusConfig.Mode.INSERT;
-            wires.add(insert ? new int[] {bayNode, far} : new int[] {far, bayNode});
-            style.add(new int[] {internal ? Draw.BLUE : colourFor(link.status()), internal ? 3 : 1,
-                link.status() == BusRunner.BusStatus.RUNNING ? 1 : 0});
+            int[] ends = insert ? new int[] {bayNode, far} : new int[] {far, bayNode};
+            int[] look = {internal ? Draw.BLUE : colourFor(link.status()), internal ? 3 : 1,
+                link.status() == BusRunner.BusStatus.RUNNING ? 1 : 0};
+            String wire = ends[0] + ">" + ends[1] + ":" + link.config().resource().getSerializedName();
+            Integer seen = wireOf.get(wire);
+            if (seen == null) {
+                wireOf.put(wire, wires.size());
+                wires.add(ends);
+                style.add(look);
+            } else {
+                int[] kept = style.get(seen);
+                if (urgency(look[0]) > urgency(kept[0])) {
+                    kept[0] = look[0];
+                }
+                kept[2] = Math.max(kept[2], look[2]);
+            }
         }
 
         // ------------------------------------------------------------------ where each one goes
@@ -422,7 +441,14 @@ class FlowPage extends WorkbayPage {
         }
     }
 
-    /** Three pips walking the route, so a link that is carrying something looks like it is. */
+    /**
+     * Pips walking the route, so a link that is carrying something looks like it is.
+     *
+     * <p><b>At a walking pace, and slower on a short route.</b> They ran at a fixed 111 pixels a
+     * second, so on a twenty-pixel arrow each pip lapped five times a second and the wire flickered
+     * rather than flowed. Forty pixels a second now, with a lap never quicker than 1.6 seconds, and
+     * one pip for every thirty pixels of route, up to three.
+     */
     private void travel(GuiGraphics g, int[] xs, int[] ys) {
         double total = 0;
         double[] leg = new double[Math.max(1, xs.length - 1)];
@@ -433,9 +459,11 @@ class FlowPage extends WorkbayPage {
         if (total <= 0) {
             return;
         }
-        long now = net.minecraft.Util.getMillis();
-        for (int pip = 0; pip < 3; pip++) {
-            double walked = (now / 9.0 + pip * total / 3) % total;
+        double speed = Math.min(40.0, total / 1.6);
+        int pips = (int) Math.clamp(total / 30, 1, 3);
+        double seconds = net.minecraft.Util.getMillis() / 1000.0;
+        for (int pip = 0; pip < pips; pip++) {
+            double walked = (seconds * speed + pip * total / pips) % total;
             for (int i = 0; i + 1 < xs.length; i++) {
                 if (walked > leg[i]) {
                     walked -= leg[i];
@@ -524,6 +552,12 @@ class FlowPage extends WorkbayPage {
      */
     private static boolean isInternal(WorkbaySnapshot snap, WorkbaySnapshot.Link link) {
         return link.config().internal();
+    }
+
+    /** Which of two wire colours a merged wire shows: a problem outranks moving, moving resting. */
+    private static int urgency(int colour) {
+        return colour == Draw.RED ? 4 : colour == Draw.AMBER ? 3 : colour == Draw.GREEN ? 2
+            : colour == Draw.EDGE_LIGHT ? 1 : 0;
     }
 
     private static int colourFor(BusRunner.BusStatus status) {
