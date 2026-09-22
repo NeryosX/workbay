@@ -77,6 +77,8 @@ public class WBLanguageProvider extends LanguageProvider {
             + "every one you own already has a block. Open it to move one here.");
         add(WorkbayLang.messageKey("network_transferred"), "%s moved here. The block it came from "
             + "is standing empty.");
+        // #129: the same Transfer on a network with no block. There is no block it came from.
+        add(WorkbayLang.messageKey("network_woken"), "%s woke up here, with everything it had.");
         add(WorkbayLang.messageKey("break_warning"), "Breaking this Workbay leaves its bays behind. "
             + "Nothing is lost: the network sleeps with everything in it, and any fresh Workbay "
             + "you place picks it straight back up.");
@@ -537,6 +539,10 @@ public class WBLanguageProvider extends LanguageProvider {
         // check-lang. OPEN_ISSUES #106.
         add(WorkbayLang.guiKey("networks.empty.take.tip"), "Every network you own already has a "
             + "block. Pick one and press Transfer to move it here; the block it leaves stands empty.");
+        // #129: at the limit with a network asleep. The take.tip above was drawn here and said
+        // every network had a block, over a row reading Asleep.
+        add(WorkbayLang.guiKey("networks.empty.wake.tip"), "One of your networks has no block. "
+            + "Press Transfer on it to wake it here, with everything it holds.");
         add(WorkbayLang.guiKey("networks.new"), "New network");
         add(WorkbayLang.guiKey("networks.new.tip"), "Makes a fresh network in this Workbay: two "
             + "empty bays, no Connectors, nothing racked. It counts against the number of networks "

@@ -112,12 +112,17 @@ class NetworksPage extends WorkbayPage {
         boolean canMint = snap.networks().size() < snap.maxNetworks();
         boolean canTake = snap.networks().stream().anyMatch(net -> !net.here());
         boolean stuck = !canMint && !canTake;
+        // #129: at the limit the banner said "every network you own already has a block" over a
+        // row reading Asleep, No block placed. The rows are right -- each carries its own block or
+        // none -- so the sentence is chosen from them rather than from the count.
+        boolean anyAsleep = snap.networks().stream().anyMatch(WorkbaySnapshot.Net::asleep);
         int room = ROW_W - 16 - (canMint ? NEW_W + 6 : 0);
         Draw.notice(g, x(ROW_X), y(HEADER_H + 5), ROW_W, BANNER_H);
         text(g, WorkbayScreen.gui(stuck ? "networks.quota" : "networks.empty"),
             x(ROW_X + 8), y(HEADER_H + 11), room, stuck ? Draw.AMBER : Draw.TEXT);
         wrapped(g, WorkbayScreen.gui(stuck ? "networks.quota.tip"
-                : canMint ? "networks.empty.tip" : "networks.empty.take.tip"),
+                : canMint ? "networks.empty.tip"
+                : anyAsleep ? "networks.empty.wake.tip" : "networks.empty.take.tip"),
             x(ROW_X + 8), y(HEADER_H + 22), room, Draw.TEXT_DIM);
         if (!canMint) {
             return;

@@ -246,6 +246,10 @@ public class NetworkTests {
                 java.util.Optional.of(smeltery));
             helper.assertTrue(smeltery.equals(b.workbayId().orElse(null)), "B does not hold Smeltery after the first Transfer");
             helper.assertTrue(a.workbayId().isEmpty(), "A still holds Smeltery");
+            // #129: a live network leaves a block standing empty, and the line says so.
+            helper.assertValueEqual(LockTests.lastRefusal(player),
+                com.neryos.workbay.WorkbayLang.messageKey("network_transferred"),
+                "the line after moving a placed network");
 
             // The sleeping network into A.
             menuFor(a, player).act(com.neryos.workbay.menu.WorkbayAction.TRANSFER_NETWORK, 0,
@@ -253,6 +257,10 @@ public class NetworkTests {
             helper.assertTrue(second.equals(a.workbayId().orElse(null)), "A does not hold the second network after the second Transfer");
             helper.assertTrue(smeltery.equals(b.workbayId().orElse(null)),
                 "B lost Smeltery when a network that last stood in it was moved elsewhere");
+            // #129: a sleeping one had no block, and the line said "the block it came from".
+            helper.assertValueEqual(LockTests.lastRefusal(player),
+                com.neryos.workbay.WorkbayLang.messageKey("network_woken"),
+                "the line after moving a sleeping network");
             helper.succeed();
         });
     }

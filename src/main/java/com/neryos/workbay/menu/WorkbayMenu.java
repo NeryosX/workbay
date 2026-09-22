@@ -1056,6 +1056,9 @@ public class WorkbayMenu extends AbstractContainerMenu {
             return;
         }
 
+        // Asked before anything moves: whether there was a block to leave is what the line says.
+        boolean hadBlock = target.live();
+
         // 1. The block the network is leaving, if it has one. Loaded or not: the record is the
         //    registry's, and the block finds out it is empty the next time it ticks or is opened.
         //    Only if that block still holds *this* network: a sleeping network's last position is
@@ -1082,7 +1085,9 @@ public class WorkbayMenu extends AbstractContainerMenu {
         registry.put(registry.byId(target.id()).orElseThrow().withDeployedCount(1));
         workbay.rememberPosition();
         com.neryos.workbay.WorkbaySounds.confirm(player,
-            com.neryos.workbay.WorkbayLang.message("network_transferred", target.label()),
+            // #129: a sleeping network has no block to leave behind, and the line said it did.
+            com.neryos.workbay.WorkbayLang.message(hadBlock ? "network_transferred"
+                : "network_woken", target.label()),
             com.neryos.workbay.init.WBSounds.NETWORK_ARRIVES.get(), 1.4F);
         refreshNow();
     }

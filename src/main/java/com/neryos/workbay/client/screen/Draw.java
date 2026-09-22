@@ -677,6 +677,12 @@ public final class Draw {
         }
     }
 
+    /** How many lines {@link #wrapped} will draw this text in, so a box can be sized to it first. */
+    public static int wrappedLines(Font font, Component text, int room) {
+        return Math.max(1, font.split(text.copy().withStyle(style -> style.withFont(UI_FONT)),
+            room).size());
+    }
+
     /**
      * A tooltip, wrapped and with its first line bolded.
      *

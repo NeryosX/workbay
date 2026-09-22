@@ -543,7 +543,14 @@ public class WorkbayScreen extends AbstractContainerScreen<WorkbayMenu> {
             notice = null;
             return;
         }
-        int h = font.lineHeight + 8;
+        // Wrapped, and the card as tall as the sentence (#129). It was one line cut with an
+        // ellipsis, so the longest thing the server says -- a Transfer's two sentences on the
+        // narrowest page -- arrived as "The block it came from is standin...".
+        int room = imageWidth - 28;
+        // Its words only: the card's amber is the colour, whatever style the server's line had.
+        Component words = Component.literal(notice.getString());
+        int lines = Draw.wrappedLines(font, words, room);
+        int h = font.lineHeight + 8 + (lines - 1) * 10;
         int px = leftPos + 8;
         int py = topPos + imageHeight - h - 6;
         // Above the page, including its item sprites: an item is rendered on its own layer well in
@@ -556,7 +563,7 @@ public class WorkbayScreen extends AbstractContainerScreen<WorkbayMenu> {
         // screen the player did not ask to see, so it has to read as laid *over* the page rather
         // than as a row of it.
         Draw.notice(graphics, px, py, imageWidth - 16, h);
-        Draw.text(graphics, font, notice.getString(), px + 6, py + 5, imageWidth - 28, Draw.AMBER);
+        Draw.wrapped(graphics, font, words, px + 6, py + 5, room, Draw.AMBER);
         graphics.pose().popPose();
     }
 
