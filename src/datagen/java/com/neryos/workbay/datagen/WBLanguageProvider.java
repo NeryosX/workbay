@@ -115,12 +115,8 @@ public class WBLanguageProvider extends LanguageProvider {
             + "around it. A bay has no neighbours to connect to.");
         add(WorkbayLang.messageKey("reject.no_ports"), "%s has no item, fluid or energy ports. A bus "
             + "would have nothing to connect to.");
-        add(WorkbayLang.messageKey("reject.kinetic"), "%s runs on rotational force. A bay can't turn "
-            + "a shaft.");
         add(WorkbayLang.messageKey("reject.multiblock"), "%s is part of a multiblock. A bay holds one "
             + "block; build it in a room instead.");
-        add(WorkbayLang.messageKey("reject.world_interacting"), "%s works on the world around it. A "
-            + "bay is empty, so it would have nothing to do.");
         add(WorkbayLang.messageKey("reject.immovable"), "%s can't be safely relocated.");
         add(WorkbayLang.messageKey("reject.recursion"), "A Workbay can't go inside a Workbay.");
         add(WorkbayLang.messageKey("reject.pack_denied"), "This pack doesn't allow %s to be hosted.");
