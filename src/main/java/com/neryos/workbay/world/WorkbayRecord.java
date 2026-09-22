@@ -111,6 +111,16 @@ public record WorkbayRecord(
         public Connector withName(String nowName) {
             return new Connector(id, pos, nowName, target, targetBlock);
         }
+
+        /**
+         * Whether another unnamed Connector on this network stands on the same kind of block, so
+         * that the block's name alone would call two of them the same thing. OPEN_ISSUES #77's
+         * three Energy Cubes, which is the one case a Connector's derived name needs its place.
+         */
+        public boolean hasTwin(java.util.List<Connector> all) {
+            return name.isBlank() && targetBlock.isPresent() && all.stream().anyMatch(other ->
+                !other.id.equals(id) && other.name.isBlank() && other.targetBlock.equals(targetBlock));
+        }
     }
 
     /** The Connector standing at a position, if this network owns one there. */

@@ -78,7 +78,8 @@ public class ConnectorScreen extends AbstractContainerScreen<ConnectorMenu> {
         // "* on bay 2", which was wrong even when a Connector had one row and is now unanswerable:
         // a Connector carries a row for every time it was pulled into a bay, and those rows can sit
         // on different bays at once. What a bay owns is a row. What this panel names is the block.
-        Component hint = WorkbayLang.gui("connector.hint", menu.view().fallback());
+        Component hint = WorkbayLang.gui("connector.hint", BaysPage.derivedName(
+            menu.view().targetBlock(), menu.view().pos(), menu.view().twin()));
         Draw.text(g, font, hint.getString(), px, topPos + HINT_Y, ROW_W, Draw.TEXT_DIM);
 
         // <b>What this block is doing</b>, which is the one other thing it can answer for itself.

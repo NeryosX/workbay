@@ -35,6 +35,15 @@
     ],
     "subtitle": "subtitles.workbay.door"
   },
+  "ejected": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chiseled_bookshelf.pickup"
+      }
+    ],
+    "subtitle": "subtitles.workbay.ejected"
+  },
   "linked": {
     "sounds": [
       {
@@ -52,6 +61,15 @@
       }
     ],
     "subtitle": "subtitles.workbay.network_arrives"
+  },
+  "racked": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chiseled_bookshelf.insert"
+      }
+    ],
+    "subtitle": "subtitles.workbay.racked"
   },
   "refuse": {
     "sounds": [

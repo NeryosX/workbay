@@ -1336,7 +1336,8 @@ class BaysPage extends WorkbayPage {
                     typed -> screen.sendText(WorkbayAction.SET_LINK_NAME, typed, config.id()));
             }
         }, link.label().<Component>map(Component::literal).orElseGet(() -> fullName(link)),
-            WorkbayScreen.gui("links.rename.tip"));
+            WorkbayScreen.gui("links.rename.tip"),
+            standsAt(config.connector().pos()));
 
         // The right-hand column is the status, always, for every kind of link.
         //
@@ -2012,7 +2013,10 @@ class BaysPage extends WorkbayPage {
                         true);
                 }
                 String blockName = connectorTarget(connector);
-                String label = connector.name().isBlank() ? blockName : connector.name();
+                String label = connector.name().isBlank()
+                    ? derivedName(connector.targetBlock(), connector.pos().pos(),
+                        connector.hasTwin(loose))
+                    : connector.name();
                 String from = blockName;
                 // Right-aligned against the badge rather than parked on a fixed x: the two
                 // strings are "what it is" and "where it points", and a fixed column left a
@@ -2026,7 +2030,7 @@ class BaysPage extends WorkbayPage {
                 // exists to point at -- arrived as "Creative Energ..." with a column of nothing
                 // beside it. Same fault and same fix as the link row's own name column, which
                 // stopped writing its width down for exactly this reason. OPEN_ISSUES #74.
-                boolean secondFact = !from.equals(label);
+                boolean secondFact = !connector.name().isBlank() && !from.equals(label);
                 int fromRight = px + 186;
                 // <b>Measured, not capped at ninety-two.</b> That number was written for a list
                 // of rows with a bay badge and an arrow on it; this list has one row per Connector
@@ -2052,7 +2056,9 @@ class BaysPage extends WorkbayPage {
                 }, waiting ? WorkbayScreen.gui("links.add.connector.back", label)
                     : WorkbayScreen.gui("links.add.connector", label),
                     waiting ? WorkbayScreen.gui("links.add.connector.back.tip", selected + 1)
-                        : WorkbayScreen.gui("links.add.connector.tip", selected + 1));
+                        : WorkbayScreen.gui("links.add.connector.tip", selected + 1),
+                    // #125: a Connector standing against nothing was a row with no way to find it.
+                    standsAt(connector.pos().pos()));
             } else {
                 int bay = bays.get(index);
                 boolean ticked = pickedBays.contains(bay);
@@ -2219,12 +2225,13 @@ class BaysPage extends WorkbayPage {
     /**
      * What the row calls this link.
      *
-     * <p>The name the player gave it; failing that <b>the Connector's own coordinates</b>, which
-     * is OPEN_ISSUES #77's model: a Connector is one object with a name, and its name before
-     * anybody gives it one is where it is. It used to be the target block's own name, which was
-     * the right answer while one Connector could hold four rows -- and is the wrong one now, when
-     * three Connectors on three Energy Cubes would be three rows all reading "Basic Energy Cube".
-     * The block is the icon beside it, and the full answer is one hover away.
+     * <p>The name the player gave its Connector; failing that <b>the block the Connector stands
+     * on</b>, which is what the Add list and the rename panel call it too (OPEN_ISSUES #122). The
+     * row used to print the Connector's coordinates while the Add list said "Chest" and the panel
+     * offered "Empty leaves it -3 -59 -3": three names for one object, and the one printed largest
+     * named nothing a player recognises. The coordinates were there for #77's three Energy Cubes
+     * reading alike, so only there -- a twin -- does the name carry its place; everywhere else the
+     * place is one hover away.
      *
      * <p>A link into a room is still named by the room: the coordinate of a barrel in a dimension
      * the player cannot walk to names nothing.
@@ -2234,9 +2241,30 @@ class BaysPage extends WorkbayPage {
             if (link.targetRoom().isPresent()) {
                 return snapshot().roomLabel(link.targetRoom().get()).getString();
             }
-            net.minecraft.core.BlockPos at = link.config().connector().pos();
-            return at.getX() + " " + at.getY() + " " + at.getZ();
+            List<Connector> all = snapshot().connectors();
+            return all.stream().filter(c -> c.pos().equals(link.config().connector())).findFirst()
+                .map(c -> derivedName(c.targetBlock(), c.pos().pos(), c.hasTwin(all)))
+                .orElseGet(() -> derivedName(link.targetBlock(), link.config().connector().pos(),
+                    false));
         });
+    }
+
+    /**
+     * An unnamed Connector's name, and the only place one is made: the block it stands on, with
+     * its x and z when another unnamed one stands on the same kind, and its coordinates alone when
+     * this client has never known the block. The rename panel says the same thing as its hint.
+     */
+    static String derivedName(Optional<ResourceLocation> block, net.minecraft.core.BlockPos at,
+        boolean twin) {
+        return block.filter(id -> !id.equals(ResourceLocation.withDefaultNamespace("air")))
+            .map(BaysPage::displayName).map(Component::getString)
+            .map(name -> twin ? name + " " + at.getX() + " " + at.getZ() : name)
+            .orElseGet(() -> at.getX() + " " + at.getY() + " " + at.getZ());
+    }
+
+    /** Where a Connector stands, for a hover: the one fact its derived name leaves out. */
+    private static Component standsAt(net.minecraft.core.BlockPos at) {
+        return WorkbayScreen.gui("links.connector.at", at.getX(), at.getY(), at.getZ());
     }
 
     /**

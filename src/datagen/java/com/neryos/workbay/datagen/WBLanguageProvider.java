@@ -42,6 +42,8 @@ public class WBLanguageProvider extends LanguageProvider {
         subtitle("stuck", "Workbay is stuck");
         subtitle("network_arrives", "Network arrives");
         subtitle("room_returned", "Room handed back");
+        subtitle("racked", "Machine racked");
+        subtitle("ejected", "Machine ejected");
 
         addBlock(WBBlocks.WORKBAY, "Workbay");
         addBlock(WBBlocks.PORT, "Port");
@@ -210,7 +212,10 @@ public class WBLanguageProvider extends LanguageProvider {
         add(WorkbayLang.guiKey("links.target.tip"), "What this link is pointed at.");
         add(WorkbayLang.guiKey("links.rename.tip"), "Right-click to name this Connector. The "
             + "name is the block's, so every channel through it reads the same. Empty goes back "
-            + "to the derived name.");
+            + "to the name of the block it stands on.");
+        // #122 and #125: where a Connector stands, on every hover that names one. Its derived name
+        // is the block it is on, so this is the one fact the name leaves out.
+        add(WorkbayLang.guiKey("links.connector.at"), "The Connector stands at %s %s %s.");
         add(WorkbayLang.guiKey("button.rename"), "Rename");
         add(WorkbayLang.guiKey("button.rename.tip"), "Name this bay. Return commits, Escape cancels, empty goes back to the machine's.");
         add(WorkbayLang.guiKey("redstone.always"), "Redstone: always");

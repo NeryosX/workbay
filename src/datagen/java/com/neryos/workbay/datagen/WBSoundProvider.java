@@ -37,6 +37,8 @@ public class WBSoundProvider extends SoundDefinitionsProvider {
         borrow(WBSounds.STUCK, SoundEvents.COPPER_BULB_TURN_OFF);
         borrow(WBSounds.NETWORK_ARRIVES, SoundEvents.BEACON_ACTIVATE);
         borrow(WBSounds.ROOM_RETURNED, SoundEvents.COPPER_BULB_TURN_OFF);
+        borrow(WBSounds.RACKED, SoundEvents.CHISELED_BOOKSHELF_INSERT);
+        borrow(WBSounds.EJECTED, SoundEvents.CHISELED_BOOKSHELF_PICKUP);
     }
 
     /** Our event, vanilla's recording, our subtitle. */

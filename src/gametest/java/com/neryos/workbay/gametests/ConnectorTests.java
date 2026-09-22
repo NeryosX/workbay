@@ -750,7 +750,8 @@ public class ConnectorTests {
                 "the Workbay block is still standing, so this proves nothing about the chunk");
 
             new com.neryos.workbay.menu.ConnectorMenu(1,
-                new com.neryos.workbay.menu.ConnectorMenu.View(connectorPos, "", "", 0, true))
+                new com.neryos.workbay.menu.ConnectorMenu.View(connectorPos, "",
+                    java.util.Optional.empty(), false, 0, true))
                 .act(com.neryos.workbay.menu.WorkbayAction.SET_CONNECTOR_NAME, "Ore feed", player);
 
             helper.assertValueEqual(RoomRegistry.get(level.getServer()).byId(network).orElseThrow()

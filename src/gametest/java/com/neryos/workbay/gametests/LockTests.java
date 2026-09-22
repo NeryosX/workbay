@@ -245,7 +245,8 @@ public class LockTests {
                 "what the stranger was told at the Connector");
 
             // The panel's packet with no panel: a forged rename.
-            new ConnectorMenu(7, new ConnectorMenu.View(connectorPos, "", "", 0, true))
+            new ConnectorMenu(7, new ConnectorMenu.View(connectorPos, "", java.util.Optional.empty(), false,
+                0, true))
                 .act(WorkbayAction.SET_CONNECTOR_NAME, "mine now", stranger);
             helper.assertValueEqual(workbay.connectorAt(here).orElseThrow().name(), "",
                 "the Connector's name after a stranger's forged rename");

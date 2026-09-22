@@ -39,6 +39,9 @@ public final class WBSounds {
     /** A network arriving in a block: transferred in, or made in place. */
     public static final DeferredHolder<SoundEvent, SoundEvent> NETWORK_ARRIVES = sound("network_arrives");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROOM_RETURNED = sound("room_returned");
+    /** A machine going into a bay, and coming back out. */
+    public static final DeferredHolder<SoundEvent, SoundEvent> RACKED = sound("racked");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EJECTED = sound("ejected");
 
     private static DeferredHolder<SoundEvent, SoundEvent> sound(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(Workbay.rl(name)));

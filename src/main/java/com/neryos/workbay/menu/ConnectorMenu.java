@@ -39,21 +39,27 @@ import java.util.Optional;
 public class ConnectorMenu extends AbstractContainerMenu {
 
     /**
-     * {@code name} is what the player gave it, empty for one that was never named; {@code fallback}
-     * is what it is called then -- <b>its own coordinates</b>, resolved server-side because that is
-     * where the block is. {@code channels} is how many channels this Connector currently carries,
+     * {@code name} is what the player gave it, empty for one that was never named. What it is
+     * called then is <b>the block it stands on</b>, the same name its rows and the Add list use
+     * (OPEN_ISSUES #122), so this carries that block and whether another unnamed Connector stands
+     * on the same kind -- the name is made on the client, which is the side with the block's
+     * translation. {@code channels} is how many channels this Connector currently carries,
      * across every bay: <b>never a bay number</b>, because one Connector can be in use on all of
      * them at once and naming one of them would be picking a favourite. OPEN_ISSUES #97.
      */
-    public record View(BlockPos pos, String name, String fallback, int channels, boolean linked) {
+    public record View(BlockPos pos, String name, Optional<net.minecraft.resources.ResourceLocation>
+        targetBlock, boolean twin, int channels, boolean linked) {
 
-        public static final View EMPTY = new View(BlockPos.ZERO, "", "", 0, false);
+        public static final View EMPTY = new View(BlockPos.ZERO, "", Optional.empty(), false, 0,
+            false);
 
         public static final StreamCodec<RegistryFriendlyByteBuf, View> STREAM_CODEC =
             StreamCodec.composite(
                 BlockPos.STREAM_CODEC, View::pos,
                 ByteBufCodecs.stringUtf8(64), View::name,
-                ByteBufCodecs.stringUtf8(64), View::fallback,
+                ByteBufCodecs.optional(net.minecraft.resources.ResourceLocation.STREAM_CODEC),
+                View::targetBlock,
+                ByteBufCodecs.BOOL, View::twin,
                 ByteBufCodecs.VAR_INT, View::channels,
                 ByteBufCodecs.BOOL, View::linked,
                 View::new);
@@ -139,7 +145,8 @@ public class ConnectorMenu extends AbstractContainerMenu {
         Optional<Found> found = found(level, pos);
         View view = new View(pos,
             found.map(f -> f.connector().name()).orElse(""),
-            pos.getX() + " " + pos.getY() + " " + pos.getZ(),
+            found.flatMap(f -> f.connector().targetBlock()),
+            found.map(f -> f.connector().hasTwin(f.workbay().connectors())).orElse(false),
             found.map(f -> f.workbay()
                 .linksAt(GlobalPos.of(level.dimension(), pos)).size()).orElse(0),
             found.isPresent());

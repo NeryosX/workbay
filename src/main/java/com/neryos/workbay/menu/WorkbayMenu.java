@@ -680,10 +680,9 @@ public class WorkbayMenu extends AbstractContainerMenu {
                 one);
         }
         workbay.setChanged();
-        // In the machine's own voice, at the Workbay rather than in the Backshop where the block
-        // actually landed: the bay is nine hundred chunks away and nobody is standing in it.
-        WorkbaySounds.racked(workbay.getLevel(), workbay.getBlockPos(),
-            backshop.getBlockState(BayGeometry.machinePos(record.bayColumn(), selectedBay)));
+        // At the Workbay rather than in the Backshop where the block actually landed: the bay is
+        // nine hundred chunks away and nobody is standing in it.
+        WorkbaySounds.racked(workbay.getLevel(), workbay.getBlockPos());
     }
 
     private void eject(ServerPlayer serverPlayer, WorkbayRecord record) {
@@ -691,9 +690,6 @@ public class WorkbayMenu extends AbstractContainerMenu {
         if (backshop == null) {
             return;
         }
-        // Read before the block goes, because the sound is the block's and afterwards it is air.
-        BlockState was = backshop.getBlockState(
-            BayGeometry.machinePos(record.bayColumn(), selectedBay));
         ItemStack machine = BayHosting.eject(backshop, record.bayColumn(), selectedBay, serverPlayer);
         if (machine.isEmpty()) {
             // #130: the one button on the panel that could be pressed and say nothing.
@@ -701,7 +697,7 @@ public class WorkbayMenu extends AbstractContainerMenu {
                 com.neryos.workbay.WorkbayLang.message("eject_empty"));
             return;
         }
-        WorkbaySounds.ejected(workbay.getLevel(), workbay.getBlockPos(), was);
+        WorkbaySounds.ejected(workbay.getLevel(), workbay.getBlockPos());
         // Narrow again: eject rebuilds the bay from nothing, so the record says what stands there.
         WorkbayRecord emptied = record.withBay(record.bay(selectedBay)
             .withHosted(Optional.empty())

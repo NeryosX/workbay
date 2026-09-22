@@ -1337,4 +1337,77 @@ public class MenuTests {
             helper.succeed();
         });
     }
+
+    /**
+     * <b>OPEN_ISSUES #125: a rack read "Block placed" in the subtitle corner.</b> A subtitle
+     * belongs to the sound event, and racking played the machine's own place sound, so the caption
+     * was vanilla's. Racking and ejecting are heard as this mod's own events now.
+     */
+    @GameTest
+    @TestHolder(description = "Racking and ejecting play this mod's own sound events.")
+    public static void aRackAndAnEjectAreHeardAsOurOwnEvents(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(3, 3, 3));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            ServerLevel level = helper.getLevel();
+            GameTestPlayer player = helper.makeTickingMockServerPlayerInLevel(GameType.SURVIVAL);
+            BlockPos workbayPos = helper.absolutePos(new BlockPos(1, 1, 1));
+            WorkbayBlockEntity workbay = placeWorkbay(helper, workbayPos, player);
+            WorkbayRecord record = workbay.record().orElseThrow();
+            WorkbayTickets.force(level.getServer().getLevel(WorkbayDimensions.BACKSHOP),
+                record.id(), record.bayColumn());
+            WorkbayMenu menu = menuFor(workbay, player);
+
+            player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Blocks.BARREL));
+            menu.act(WorkbayAction.RACK, 0, Optional.empty());
+            menu.act(WorkbayAction.EJECT, 0, Optional.empty());
+            java.util.List<net.minecraft.resources.ResourceLocation> heard =
+                player.getOutboundPackets(
+                        net.minecraft.network.protocol.game.ClientboundSoundPacket.class)
+                    .map(packet -> packet.getSound().value().getLocation()).toList();
+            helper.assertTrue(heard.contains(com.neryos.workbay.init.WBSounds.RACKED.getId()),
+                "no rack sound of ours among " + heard);
+            helper.assertTrue(heard.contains(com.neryos.workbay.init.WBSounds.EJECTED.getId()),
+                "no eject sound of ours among " + heard);
+
+            level.setBlock(workbayPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+            helper.succeed();
+        });
+    }
+
+    /**
+     * <b>OPEN_ISSUES #122: one name for a Connector, and its place only when it needs one.</b> An
+     * unnamed Connector is called by the block it stands on, so two unnamed ones on the same kind
+     * of block would read alike (#77's three Energy Cubes). Those two, and only those, are twins:
+     * naming either one, or standing on a different block, makes neither a twin.
+     */
+    @GameTest
+    @TestHolder(description = "Two unnamed Connectors on one kind of block are twins, and nothing else is.")
+    public static void twoUnnamedConnectorsOnOneKindOfBlockAreTwins(final DynamicTest test) {
+        test.registerGameTestTemplate(() -> StructureTemplateBuilder.withSize(1, 1, 1));
+
+        test.onGameTest(ExtendedGameTestHelper.class, helper -> {
+            GlobalPos a = GlobalPos.of(helper.getLevel().dimension(), new BlockPos(1, 2, 3));
+            GlobalPos b = GlobalPos.of(helper.getLevel().dimension(), new BlockPos(4, 5, 6));
+            Optional<net.minecraft.resources.ResourceLocation> chest =
+                Optional.of(net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(Blocks.CHEST));
+            Optional<net.minecraft.resources.ResourceLocation> barrel =
+                Optional.of(net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(Blocks.BARREL));
+            WorkbayRecord.Connector one = new WorkbayRecord.Connector(java.util.UUID.randomUUID(),
+                a, "", a, chest);
+            WorkbayRecord.Connector two = new WorkbayRecord.Connector(java.util.UUID.randomUUID(),
+                b, "", b, chest);
+            helper.assertTrue(one.hasTwin(java.util.List.of(one, two)),
+                "two unnamed Connectors on chests are not twins");
+            helper.assertFalse(one.hasTwin(java.util.List.of(one)), "a Connector is its own twin");
+            helper.assertFalse(one.hasTwin(java.util.List.of(one, two.withName("Ore feed"))),
+                "a named Connector still counts as a twin");
+            helper.assertFalse(one.withName("Ore feed").hasTwin(java.util.List.of(one, two)),
+                "a named Connector is still called by its block");
+            helper.assertFalse(one.hasTwin(java.util.List.of(one, new WorkbayRecord.Connector(
+                    java.util.UUID.randomUUID(), b, "", b, barrel))),
+                "a chest and a barrel are twins");
+            helper.succeed();
+        });
+    }
 }

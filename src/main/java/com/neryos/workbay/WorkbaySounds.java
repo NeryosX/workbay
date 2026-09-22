@@ -82,16 +82,20 @@ public final class WorkbaySounds {
     }
 
     /**
-     * A machine going into a bay, in the machine's own voice - a Mekanism cube clanks, a barrel
-     * thumps, a beehive rustles. Free variety, and it names what went in without a word.
+     * A machine going into a bay: a book sliding into a shelf, which is what racking is.
+     *
+     * <p>It was the machine's own place sound, which was free variety and named nothing in the
+     * subtitle corner: a subtitle belongs to the sound <em>event</em>, so every rack read vanilla's
+     * <em>Block placed</em> and every eject <em>Block broken</em> (OPEN_ISSUES #125). One event of
+     * ours each is the only way the caption can say what happened.
      */
-    public static void racked(Level level, BlockPos pos, BlockState machine) {
-        at(level, pos, machine.getSoundType().getPlaceSound(), 1.0F, 0.9F);
+    public static void racked(Level level, BlockPos pos) {
+        at(level, pos, WBSounds.RACKED.get(), 1.0F, 0.9F);
     }
 
     /** And coming back out. */
-    public static void ejected(Level level, BlockPos pos, BlockState machine) {
-        at(level, pos, machine.getSoundType().getBreakSound(), 0.9F, 1.1F);
+    public static void ejected(Level level, BlockPos pos) {
+        at(level, pos, WBSounds.EJECTED.get(), 0.9F, 1.1F);
     }
 
     /** An upgrade fitted. One clank of a hammer on a plate; SPEC.md §1's rungs are rare. */
