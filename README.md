@@ -29,7 +29,7 @@ it to pair it, **then** place it against the block; press Add on a bay, tick it,
 Items, fluids, energy or Mekanism chemicals move with a direction, a filter and a rate, and FLOW
 draws the whole network as a map.
 
-![The FLOW map: an ore chest linked to two furnaces, both linked to an ingot chest; a line per link, coloured by its state](docs/media/04-flow-map.png)
+![The FLOW map: an ore chest feeding a furnace and a blast furnace, a food chest feeding a smoker; one arrow per pair of boxes, pips walking on every one](docs/media/04-flow-map.png)
 
 ## Rooms that travel
 

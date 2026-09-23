@@ -31,15 +31,15 @@ somewhere else. The measured cost is on [[Machines and Bays]].
 3. **Link it to the world.** Stick a Connector on a chest, tank or machine, pair it to the bay,
    and switch a channel on. Items, fluids, energy and Mekanism chemicals move with a direction,
    a filter and a rate.
-4. **Watch it run.** FLOW draws the whole network as a map, one line per link, coloured by what
-   that link is doing right now.
+4. **Watch it run.** FLOW draws the whole network as a map, one arrow per pair of boxes, coloured by
+   what its links are doing right now.
 
 ## The four screens
 
 | Screen | What it is for |
 | --- | --- |
 | WORKBAY | The bays: the racked machine and its status, the face cube that sets which side takes what, and that bay's links. |
-| FLOW | The network as a map. One line per link, pips walking along the ones that are moving. |
+| FLOW | The network as a map. One arrow per pair of boxes, pips walking along the ones that are moving. |
 | UPGRADES | More bays, more dimensions, higher transfer rates, chunk loading. |
 | NETWORKS | Which network this block holds, and Transfer to move one between blocks. A Workbay holding no network opens here. |
 

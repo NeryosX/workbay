@@ -33,7 +33,7 @@ A fresh Workbay has **two bays**. Each Expansion Plate upgrade adds one, up to a
 
 ## Reading the WORKBAY screen
 
-![The WORKBAY screen: a furnace racked in bay 1, one link running](https://raw.githubusercontent.com/neryosx/workbay/master/docs/media/03-link-running.png)
+![The WORKBAY screen: a blast furnace racked in bay 2, one link in from a chest and one out, both running](https://raw.githubusercontent.com/neryosx/workbay/master/docs/media/03-link-running.png)
 
 | Part | What it shows |
 | --- | --- |
