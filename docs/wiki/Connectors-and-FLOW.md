@@ -18,6 +18,8 @@ To wire one up:
 
 > **Pair before you place, and pairing is not per bay.** A Connector belongs to a *network*, not to a bay - one plate can carry a channel on every bay at once, and which bays use it is decided in step 3. Place an unpaired Connector and it tells you so and sits inactive; right-clicking a Connector that is already down opens its rename panel and nothing else, so you have to break it and pair it in hand.
 
+**What a Connector is called.** An unnamed Connector takes the name of the block it stands on - *Chest*, *Rotary Condensentrator* - and that one name is used on every row and in the Add list. When two unnamed ones stand on the same kind of block, their place leads the name, *47 7 · Chest*, so a row cut short still tells them apart; hover a row for where any Connector stands. A link into one of your rooms is named by the room. To name one yourself, rename it in an anvil before placing it, or right-click the placed Connector with an empty hand; an empty name goes back to the block's.
+
 No cable is run at any point. Distance inside one dimension costs nothing. A link whose two ends are in **different** dimensions needs the Resonator upgrade - without one the row reads *Needs a Resonator* - though links into your own bays and rooms never do.
 
 ## What a channel carries
