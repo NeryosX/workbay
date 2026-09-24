@@ -97,6 +97,14 @@ final class FlowLayout {
      * level boxes get straight parallel lanes and each arrow is its own line end to end.
      */
     private final java.util.IdentityHashMap<int[], Integer> departures = new java.util.IdentityHashMap<>();
+    /**
+     * The caller's kind of each edge's last segment, where it meets the box it points at. Arrivals of
+     * one kind from different boxes share a port, and so a last leg and one head: two furnaces
+     * feeding one ingot chest drew two arrowheads a few pixels apart, where the fan out of a box
+     * has always been one fork. The owner's ask, the mirror of Sander's shared run on the way out.
+     * A reversed edge's last segment is its tail, so it never joins.
+     */
+    private final java.util.IdentityHashMap<int[], Integer> joins = new java.util.IdentityHashMap<>();
 
     /** One vertical run: everything leaving one box into one channel, and where it branches to. */
     private static final class Run {
@@ -136,8 +144,9 @@ final class FlowLayout {
     /**
      * @param count how many real boxes there are
      * @param wires one {@code {from, to}} per edge, in the caller's own order
+     * @param kinds one per edge: edges of one kind into one box join before it
      */
-    FlowLayout(int count, List<int[]> wires, int nodeW) {
+    FlowLayout(int count, List<int[]> wires, List<Integer> kinds, int nodeW) {
         this.nodeW = nodeW;
         this.nodeX = new int[count];
         this.nodeY = new int[count];
@@ -214,12 +223,16 @@ final class FlowLayout {
         // The same array instances the ports are keyed on, kept per chain so phase 5 can ask which
         // port this edge in particular lands on rather than where its target box happens to be.
         List<int[][]> chainSegments = new ArrayList<>();
-        for (int[] chain : chains) {
+        for (int e = 0; e < chains.size(); e++) {
+            int[] chain = chains.get(e);
             int[][] mine = new int[Math.max(0, chain.length - 1)][];
             for (int i = 0; i + 1 < chain.length; i++) {
                 int[] seg = {chain[i], chain[i + 1]};
                 segments.get(vertexLayer[chain[i]]).add(seg);
                 mine[i] = seg;
+            }
+            if (mine.length > 0 && !flipped[e]) {
+                joins.put(mine[mine.length - 1], kinds.get(e));
             }
             chainSegments.add(mine);
         }
@@ -384,7 +397,11 @@ final class FlowLayout {
 
     // ------------------------------------------------------------------------------- phase 4
 
-    /** Rows, then passes pulling each vertex to the median of what it joins, then separated. */
+    /**
+     * Rows, then passes pulling each vertex to the median of what it joins, then separated
+     * ({@link #spread}), until nothing moves. Capped, in case two boxes pulling across a separation
+     * trade a pixel forever.
+     */
     private void place(List<List<int[]>> segments, int layerCount) {
         for (List<Integer> here : layers) {
             int at = 0;
@@ -393,7 +410,9 @@ final class FlowLayout {
                 at += size[v] + ROW_GAP;
             }
         }
-        for (int pass = 0; pass < 4; pass++) {
+        int[] before = new int[vy.length];
+        for (int pass = 0; pass < 64 && (pass == 0 || !Arrays.equals(before, vy)); pass++) {
+            System.arraycopy(vy, 0, before, 0, vy.length);
             for (int l = 0; l < layerCount; l++) {
                 for (int v : layers.get(l)) {
                     List<Integer> joined = new ArrayList<>();
@@ -430,11 +449,47 @@ final class FlowLayout {
         }
     }
 
+    /**
+     * Separates one layer's boxes, keeping their order. Boxes that overlap become one block, and a
+     * block stands where its members <em>asked</em> to be on average, not wherever pushing down
+     * left it. Pushing only down made the map drift: a furnace and a blast furnace asking for one
+     * spot were stacked below it, the chests they share re-centred on the pair, the pair followed,
+     * and the whole cluster slid 14 pixels a pass while anything tied to it lagged a pass behind -
+     * the gallery's Food chest stood 14 above the Smoker it feeds. Merging adjacent blocks until
+     * none overlap is the pool-adjacent-violators rule, and it settles.
+     */
     private void spread(List<Integer> here) {
-        for (int i = 1; i < here.size(); i++) {
-            int least = vy[here.get(i - 1)] + size[here.get(i - 1)] + ROW_GAP;
-            if (vy[here.get(i)] < least) {
-                vy[here.get(i)] = least;
+        int[] wanted = new int[here.size()];
+        for (int i = 0; i < here.size(); i++) {
+            wanted[i] = vy[here.get(i)];
+        }
+        // {first, last, top}, and each member's offset from the block's top.
+        List<int[]> blocks = new ArrayList<>();
+        int[] offset = new int[here.size()];
+        for (int i = 0; i < here.size(); i++) {
+            blocks.add(new int[] {i, i, wanted[i]});
+            while (blocks.size() > 1) {
+                int[] above = blocks.get(blocks.size() - 2);
+                int[] below = blocks.get(blocks.size() - 1);
+                int aboveEnd = above[2] + offset[above[1]] + size[here.get(above[1])] + ROW_GAP;
+                if (aboveEnd <= below[2]) {
+                    break;
+                }
+                long sum = 0;
+                int at = 0;
+                for (int m = above[0]; m <= below[1]; m++) {
+                    offset[m] = at;
+                    sum += wanted[m] - at;
+                    at += size[here.get(m)] + ROW_GAP;
+                }
+                int top = (int) Math.round(sum / (double) (below[1] - above[0] + 1));
+                blocks.remove(blocks.size() - 1);
+                blocks.set(blocks.size() - 1, new int[] {above[0], below[1], top});
+            }
+        }
+        for (int[] block : blocks) {
+            for (int m = block[0]; m <= block[1]; m++) {
+                vy[here.get(m)] = block[2] + offset[m];
             }
         }
     }
@@ -451,13 +506,13 @@ final class FlowLayout {
     }
 
     /**
-     * A port per edge on the side it arrives at, so the last leg of every edge is a line of its own
-     * and carries its own colour for {@link #CLEAN_RUN} pixels. Only the arriving side: everything
-     * <em>leaving</em> a box shares one vertical run on purpose (Sander's hyperedge, and a fork
-     * reads as a fork), so a box that fans out still fans out from one point.
+     * A port per <em>kind</em> on the side it arrives at: arrivals of one kind share one, and so one
+     * last leg and one head, while a second kind keeps a line of its own and its own colour for
+     * {@link #CLEAN_RUN} pixels. Everything <em>leaving</em> a box shares one vertical run (Sander's
+     * hyperedge, and a fork reads as a fork); arrivals of a kind now join the same way.
      *
-     * <p>Ordered by where each edge comes from, so the fan into a box does not cross itself, and
-     * spread from the middle outwards inside the box's own side. A box with more arrivals than fit
+     * <p>Ordered by where each bundle comes from, so the fan into a box does not cross itself, and
+     * spread from the middle outwards inside the box's own side. A box with more bundles than fit
      * shrinks the pitch to nothing and lands them all on the middle, which is where they were.
      * Dummies carry one chain each and keep their centre.
      */
@@ -475,11 +530,21 @@ final class FlowLayout {
                 here.forEach(seg -> ports.put(seg, middle));
                 continue;
             }
-            here.sort(Comparator.comparingInt(seg -> anchor(seg[0])));
-            int pitch = Math.min(PORT_PITCH, (NODE_H - 2 * PORT_INSET) / (here.size() - 1));
-            int first = middle - pitch * (here.size() - 1) / 2;
-            for (int i = 0; i < here.size(); i++) {
-                ports.put(here.get(i), first + i * pitch);
+            // A segment with no kind is a bundle of one, keyed on itself (an array's identity).
+            java.util.Map<Object, List<int[]>> bundles = new java.util.LinkedHashMap<>();
+            for (int[] seg : here) {
+                Integer kind = joins.get(seg);
+                bundles.computeIfAbsent(kind == null ? seg : kind, k -> new ArrayList<>()).add(seg);
+            }
+            List<List<int[]>> ordered = new ArrayList<>(bundles.values());
+            ordered.sort(Comparator.comparingDouble(bundle ->
+                bundle.stream().mapToInt(seg -> anchor(seg[0])).average().orElse(0)));
+            int pitch = ordered.size() == 1 ? 0
+                : Math.min(PORT_PITCH, (NODE_H - 2 * PORT_INSET) / (ordered.size() - 1));
+            int first = middle - pitch * (ordered.size() - 1) / 2;
+            for (int i = 0; i < ordered.size(); i++) {
+                int port = first + i * pitch;
+                ordered.get(i).forEach(seg -> ports.put(seg, port));
             }
             // Parallel edges: the same source twice or more. Each leaves at its arrival's offset.
             java.util.Map<Integer, Integer> perSource = new java.util.HashMap<>();
@@ -580,12 +645,17 @@ final class FlowLayout {
     /**
      * What it costs to put {@code left} left of {@code right}: one per conflict - two horizontals
      * at the same height, which would overlap in the gap between the two verticals - and sixteen
-     * per crossing, a horizontal that ends inside the other run's vertical span.
+     * per crossing, a horizontal that ends inside the other run's vertical span. An end both runs
+     * share is a join, not a clash: two runs meeting at one port cost nothing and take one slot,
+     * one straight line through the port.
      */
     private static int cost(Run left, Run right) {
         int conflicts = 0;
         int crossings = 0;
         for (int end : left.ends) {
+            if (Arrays.binarySearch(right.ends, end) >= 0) {
+                continue;
+            }
             if (Math.abs(end - right.start) < CONFLICT_THRESHOLD) {
                 conflicts++;
             }

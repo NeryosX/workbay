@@ -46,7 +46,7 @@ A network holds at most 64 links.
 
 ![The FLOW map: an ore chest feeding a furnace and a blast furnace, a food chest feeding a smoker, pips walking on every arrow](https://raw.githubusercontent.com/neryosx/workbay/master/docs/media/04-flow-map.png)
 
-FLOW draws every link that has a machine on both ends: a box per endpoint, one arrow per pair of boxes, resource and direction; three links from one chest into one furnace are one arrow. Drag to move, scroll to zoom. A link parked off its bay, or pointing at an empty bay, is not on the map - the LINKS list is where those live.
+FLOW draws every link that has a machine on both ends: a box per endpoint, one arrow per pair of boxes, resource and direction; three links from one chest into one furnace are one arrow, and arrows of one resource from different boxes join before the box they enter. Drag to move, scroll to zoom. A link parked off its bay, or pointing at an empty bay, is not on the map - the LINKS list is where those live.
 
 The example above reads left to right - an ore chest feeds a Furnace and a Blast Furnace, both feed an ingot chest, and a food chest feeds a Smoker that fills a pantry. The ore chest reaches the Furnace through three links, one per ore, drawn as one arrow; the food chest reaches the Smoker through two.
 

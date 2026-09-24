@@ -14,8 +14,8 @@ Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies. Worlds f
   emptied Workbay at the network limit; **no server line cut short** on a screen.
 - **A Connector has one name everywhere**: the block it stands on, not its coordinates, with its
   place in front when two stand on the same kind of block. Racking and ejecting have subtitles.
-- **FLOW** stays in view through a zoom, draws one arrow for links that share both ends, a type
-  and a direction, and its pips walk instead of racing.
+- **FLOW** stays in view through a zoom, draws one arrow for links sharing both ends, a type and a
+  direction, joins arrows of one type into a box, keeps its boxes level, and its pips walk.
 - **JEI and EMI keep out of Workbay screens** unless a filter slot is open to drag into.
 - **An update notice** on the Mods screen, and **one line of thanks** on your first join ever;
   `greeting = false` silences it. The server config is `config/workbay-server.toml`.

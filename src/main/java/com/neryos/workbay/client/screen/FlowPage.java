@@ -92,6 +92,7 @@ class FlowPage extends WorkbayPage {
         List<List<Component>> tips = new ArrayList<>();
         List<int[]> wires = new ArrayList<>();
         List<int[]> style = new ArrayList<>();
+        List<Integer> kinds = new ArrayList<>();
 
         for (WorkbaySnapshot.Bay bay : snap.bays()) {
             if (bay.hosted().isPresent()) {
@@ -146,6 +147,9 @@ class FlowPage extends WorkbayPage {
                 wireOf.put(wire, wires.size());
                 wires.add(ends);
                 style.add(look);
+                // What may join another wire into the same box: the same resource, and the same
+                // side of the block wall, since a dashed bay link and a solid one are two facts.
+                kinds.add(link.config().resource().ordinal() * 2 + (internal ? 1 : 0));
             } else {
                 int[] kept = style.get(seen);
                 if (urgency(look[0]) > urgency(kept[0])) {
@@ -168,7 +172,7 @@ class FlowPage extends WorkbayPage {
         int widest = labels.stream().mapToInt(l -> Draw.width(screen.font(), l.getString()))
             .max().orElse(0);
         this.nodeW = Math.clamp(widest + 24, n > 12 ? 84 : NODE_W, 140);
-        FlowLayout layout = new FlowLayout(n, wires, nodeW);
+        FlowLayout layout = new FlowLayout(n, wires, kinds, nodeW);
         for (int i = 0; i < n; i++) {
             nodes.add(new Node(labels.get(i), icons.get(i), isBay.get(i), tips.get(i),
                 layout.nodeX[i], layout.nodeY[i]));
@@ -177,6 +181,9 @@ class FlowPage extends WorkbayPage {
             edges.add(new Edge(layout.edgeXs.get(i), layout.edgeYs.get(i), style.get(i)[0],
                 style.get(i)[1], style.get(i)[2] == 1));
         }
+        // Wires joined into one box share their last leg and head, and whichever is drawn last owns
+        // its colour: the most urgent goes last, as it does when links merge into one wire.
+        edges.sort(java.util.Comparator.comparingInt(edge -> urgency(edge.colour())));
         this.graphW = layout.width;
         this.graphH = layout.height;
 
@@ -270,6 +277,12 @@ class FlowPage extends WorkbayPage {
         g.pose().translate(panX, panY, 0);
         for (Edge edge : edges) {
             route(g, edge);
+        }
+        // Pips after every line, or a joined leg drawn later would paint over them.
+        for (Edge edge : edges) {
+            if (edge.running()) {
+                travel(g, edge.xs(), edge.ys());
+            }
         }
         for (Node node : nodes) {
             node(g, node);
@@ -416,9 +429,6 @@ class FlowPage extends WorkbayPage {
         if (last > 0) {
             head(g, xs[last], ys[last], Integer.signum(xs[last] - xs[last - 1]),
                 Integer.signum(ys[last] - ys[last - 1]), edge.colour());
-        }
-        if (edge.running()) {
-            travel(g, xs, ys);
         }
     }
 
