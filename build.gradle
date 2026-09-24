@@ -268,24 +268,48 @@ sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
 neoForge.ideSyncTask generateModMetadata
 
-// update.json is what NeoForge's update notice reads (mods.toml's updateJSONURL, off master). A
-// release that bumps mod_version without it would tell nobody, so the build refuses the pair out
-// of step: the version being built must be listed for this Minecraft and be both promos.
+// update.json is what NeoForge's update notice reads (mods.toml's updateJSONURL, off master), and
+// the notice names whatever version the promos name - the changelog lines beside them announce
+// nothing. So the promos may only ever name a released version, one with a v<version> tag, which
+// tools/publish.sh creates by uploading and only then moves the promos to. 1.1.0 was announced to
+// every installed 1.0.1 for a day before any store had it, because this check used to demand the
+// promos match the version being built. Three rules: the version being built is listed (its line
+// is ready); every promo names a tagged release; a tagged release is the promos (else nobody is told).
+var releaseTags = providers.exec {
+    commandLine 'git', 'tag', '--list', 'v*'
+    ignoreExitValue = true
+}.standardOutput.asText
 var checkUpdateJson = tasks.register("checkUpdateJson") {
     var json = layout.projectDirectory.file("update.json")
     var version = mod_version
     var mc = minecraft_version
+    var tags = releaseTags
     inputs.file(json)
     inputs.property("version", version)
     doLast {
         var parsed = new groovy.json.JsonSlurper().parse(json.asFile)
-        var listed = parsed[mc] instanceof Map && parsed[mc].containsKey(version)
         var latest = parsed.promos?.get(mc + "-latest")
         var recommended = parsed.promos?.get(mc + "-recommended")
-        if (!listed || latest != version || recommended != version) {
-            throw new GradleException("update.json is out of step with mod_version " + version
-                + ": list it under \"" + mc + "\" and set both " + mc + " promos to it"
-                + " (latest is " + latest + ", recommended " + recommended + ").")
+        if (!(parsed[mc] instanceof Map && parsed[mc].containsKey(version))) {
+            throw new GradleException("update.json has no line for mod_version " + version
+                + " under \"" + mc + "\".")
+        }
+        var released = (tags.getOrElse("").readLines()*.trim().findAll { it }
+            .collect { it.substring(1) }) as Set
+        if (released.isEmpty()) {
+            logger.warn("checkUpdateJson: no v* tags here (not a clone?); promos not checked.")
+            return
+        }
+        [latest, recommended].each { promo ->
+            if (!released.contains(promo)) {
+                throw new GradleException("update.json's promos name " + promo + ", which has no"
+                    + " v" + promo + " tag: every installed copy would announce a version no store"
+                    + " has. Keep the promos on the last release; tools/publish.sh moves them.")
+            }
+        }
+        if (released.contains(version) && (latest != version || recommended != version)) {
+            throw new GradleException(version + " is released (tag v" + version + ") but the"
+                + " promos still say " + latest + "/" + recommended + ": nobody is told.")
         }
     }
 }
