@@ -25,7 +25,9 @@ sourceSets.main.resources {
 
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
-    exclude("src/generated/**/.cache") // datagen cache files
+    // Datagen's hash cache. A pattern is matched from each source root, so the template's
+    // "src/generated/**/.cache" matched nothing and 1.0.0 and 1.0.1 both shipped .cache/ in the jar.
+    exclude(".cache/**")
 }
 
 // Gametests live in their own source set and their own mod, mirroring EnderIO's layout.

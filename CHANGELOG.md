@@ -2,7 +2,7 @@
 
 The top section is what goes out with the release. Newest first.
 
-## 1.1.0 - 2026-09-23
+## 1.1.0 - 2026-09-24
 
 Minecraft 1.21.1, NeoForge 21.1.249 or newer, Java 21, no dependencies. Worlds from 1.0 open unchanged.
 
